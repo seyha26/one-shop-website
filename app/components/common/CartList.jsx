@@ -12,7 +12,7 @@ import { CloseOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
-import { removeProduct } from "@/redux/features/actions";
+import { getUserCart, removeProduct } from "@/redux/features/actions";
 import { Icon } from "@iconify/react";
 
 const CartList = ({ handleClose, open, setOpen }) => {
@@ -21,6 +21,9 @@ const CartList = ({ handleClose, open, setOpen }) => {
   const removeItem = (id) => {
     dispatch(removeProduct(id));
   };
+
+  console.log(data);
+
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {
       method: "POST",
@@ -105,62 +108,65 @@ const CartList = ({ handleClose, open, setOpen }) => {
             </Grid>
             <Divider />
 
-            {data.map((item, index) => (
-              <Grid key={index}>
-                <Divider />
-                <Grid
-                  padding="20px"
-                  display={"flex"}
-                  justifyContent={"space-between"}
-                  alignItems={"center"}
-                >
-                  <Grid width={"100%"}>
-                    <Typography variant="h6">{item.name}</Typography>
-                    <Typography>
-                      {item.amount} X ${item.price}
-                    </Typography>
-                    <Grid marginTop="5px"></Grid>
-                  </Grid>
+            {data &&
+              data.map((item, index) => (
+                <Grid key={index}>
+                  <Divider />
                   <Grid
-                    position={"relative"}
-                    width={"120px"}
-                    height={"120px"}
-                    border={"1px solid #dddddd"}
-                    padding="5px"
-                    borderRadius="10px"
+                    padding="20px"
+                    display={"flex"}
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
                   >
+                    <Grid width={"100%"}>
+                      <Typography variant="h6">
+                        {item.productId.name}
+                      </Typography>
+                      <Typography>
+                        {item.qty} X ${item.productId.price}
+                      </Typography>
+                      <Grid marginTop="5px"></Grid>
+                    </Grid>
                     <Grid
-                      width={"100%"}
-                      height={"100%"}
-                      display={"flex"}
-                      justifyContent={"center"}
-                      alignItems={"center"}
-                      overflow={"hidden"}
+                      position={"relative"}
+                      width={"120px"}
+                      height={"120px"}
+                      border={"1px solid #dddddd"}
+                      padding="5px"
                       borderRadius="10px"
                     >
-                      <img
-                        style={{ maxWidth: "110px" }}
-                        src={item.image}
-                        alt=""
-                      />
+                      <Grid
+                        width={"100%"}
+                        height={"100%"}
+                        display={"flex"}
+                        justifyContent={"center"}
+                        alignItems={"center"}
+                        overflow={"hidden"}
+                        borderRadius="10px"
+                      >
+                        <img
+                          style={{ maxWidth: "110px" }}
+                          src={item.productId.imageUrl}
+                          alt=""
+                        />
+                      </Grid>
+                      <IconButton
+                        className="btn bg-white"
+                        sx={{
+                          position: "absolute",
+                          top: "-17px",
+                          right: "-17px",
+                        }}
+                        onClick={() => removeItem(item._id)}
+                      >
+                        <Icon icon="zondicons:close-outline" />
+                      </IconButton>
                     </Grid>
-                    <IconButton
-                      className="btn bg-white"
-                      sx={{
-                        position: "absolute",
-                        top: "-17px",
-                        right: "-17px",
-                      }}
-                      onClick={() => removeItem(item.id)}
-                    >
-                      <Icon icon="zondicons:close-outline" />
-                    </IconButton>
+                    <Grid></Grid>
                   </Grid>
-                  <Grid></Grid>
+                  <Divider />
                 </Grid>
-                <Divider />
-              </Grid>
-            ))}
+              ))}
             <Grid
               padding={"20px"}
               display={"flex"}

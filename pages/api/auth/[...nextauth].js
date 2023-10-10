@@ -4,7 +4,7 @@ import { compare } from "bcryptjs";
 import NextAuth from "next-auth/next";
 import CredentialsProvider from "next-auth/providers/credentials";
 
-console.log("nextauth: ");
+// console.log("nextauth: ");
 
 const options = {
   providers: [
@@ -19,7 +19,7 @@ const options = {
         await connectToMongoDB().catch((error) => {
           throw new Error(error);
         });
-        console.log(req);
+        // console.log(req);
 
         const user = await User.findOne({
           username: credentials.username,
@@ -37,7 +37,7 @@ const options = {
         if (!isPasswordCorrect) {
           throw new Error("Invalid credentials");
         }
-        console.log("credentials: ", user);
+        // console.log("credentials: ", user);
         return user;
       },
     }),
@@ -50,14 +50,14 @@ const options = {
   },
   callbacks: {
     jwt: async ({ token, user }) => {
-      console.log("jwt new", token);
+      // console.log("jwt new", token);
       user && (token.user = user);
       return token;
     },
     session: async ({ session, token }) => {
       const user = token.user;
       session.user = user;
-      console.log("session: ", session);
+      // console.log("session: ", session);
       return session;
     },
   },

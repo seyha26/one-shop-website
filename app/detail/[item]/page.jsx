@@ -16,14 +16,18 @@ import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { addToCart } from "@/redux/features/actions";
+import { useSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
 
 const Detail = () => {
   const dispatch = useDispatch();
   const [value, setValue] = useState(1);
   const [disable, setDisable] = useState(false);
   const router = useRouter();
+  const { data } = useSession();
   const amount = parseInt(value);
-  const data = useSelector((state) => state.products.selectedProduct);
+  const products = useSelector((state) => state.products.selectedProduct);
+  const userId = data?.user?._id;
   const decrement = () => {
     if (amount > 0) {
       setValue(amount - 1);
@@ -34,28 +38,32 @@ const Detail = () => {
   };
 
   const increment = () => {
-    if (amount < data.stock) {
+    if (amount < products.stock) {
       setValue(amount + 1);
-      if (amount === data.stock - 1) {
+      if (amount === products.stock - 1) {
         setDisable(true);
       } else return;
     }
   };
 
   const addAmount = (add) => {
-    if (add < data.stock) {
+    if (add < products.stock) {
       setValue(add);
-    } else if (add > data.stock) {
-      setValue(data.stock);
+    } else if (add > products.stock) {
+      setValue(products.stock);
     }
   };
 
-  const addToCarts = (id, name, price, amount, image) => {
-    dispatch(addToCart({ id, name, price, amount, image }));
+  const addToCarts = (productId, price) => {
+    dispatch(addToCart({ productId, price, userId, qty: amount }));
+    success();
+    router.push("/");
   };
-  // console.log(data);
+  const success = () => toast.success("Successfully added to Cart!");
+  // console.log(products);
   return (
     <Grid maxWidth="1300px" margin="20px auto" paddingBottom={"300px"}>
+      <Toaster position="bottom-right" reverseOrder={false} />
       <Grid margin={"30px 0"}>
         <Stack>
           <Breadcrumbs
@@ -67,12 +75,12 @@ const Detail = () => {
                 Home
               </Link>
             </Typography>
-            <Link href={`/category/${data.category}`}>
+            <Link href={`/category/${products.category}`}>
               <Typography className="hover:underline">
-                {data.category}
+                {products.category}
               </Typography>
             </Link>
-            <Typography>{data.title}</Typography>
+            <Typography>{products.name}</Typography>
           </Breadcrumbs>
         </Stack>
       </Grid>
@@ -88,15 +96,15 @@ const Detail = () => {
             height={"350px"}
             overflow={"hidden"}
           >
-            <img src={data.thumbnail} width={"250px"} alt="" />
+            <img src={products.imageUrl} width={"250px"} alt="" />
           </Grid>
         </Grid>
         <Grid item xs={6}>
           <Grid>
-            <Typography variant="h6">{data.title}</Typography>
-            <Typography className="my-1" sx={{ color: "gray" }}>
-              {data.brand}
-            </Typography>
+            <Typography variant="h6">{products.name}</Typography>
+            {/* <Typography className="my-1" sx={{ color: "gray" }}>
+              {products.brand}
+            </Typography> */}
             <Grid
               sx={{
                 color: "#000",
@@ -107,7 +115,7 @@ const Detail = () => {
             >
               <Grid display={"flex"} gap={"1rem"}>
                 <Typography style={{ color: "orange" }}>
-                  {data.stock}
+                  {products.stock}
                 </Typography>
                 Available
               </Grid>
@@ -116,10 +124,10 @@ const Detail = () => {
                   orientation="vertical"
                   sx={{ height: "20px", width: "1px", background: "#000" }}
                 />
-                <Grid style={{ color: "green" }}> {data.rating} </Grid>
+                <Grid style={{ color: "green" }}> {products.rating} </Grid>
                 <Rating
                   name="half-rating"
-                  value={Math.floor(data.rating)}
+                  value={Math.floor(products.rating)}
                   readOnly
                 />
                 Rating
@@ -138,7 +146,7 @@ const Detail = () => {
                 fontWeight={"600"}
                 sx={{ color: "#F26522" }}
               >
-                Price ${data.price}
+                Price ${products.price}
               </Typography>
               <Grid
                 display={"flex"}
@@ -284,13 +292,7 @@ const Detail = () => {
                     },
                   }}
                   onClick={() => {
-                    addToCarts(
-                      data.id,
-                      data.title,
-                      data.price,
-                      amount,
-                      data.thumbnail
-                    );
+                    addToCarts(products._id, products.price, amount);
                     router.push("/cart");
                   }}
                 >
@@ -306,11 +308,10 @@ const Detail = () => {
                   }}
                   onClick={() =>
                     addToCarts(
-                      data.id,
-                      data.title,
-                      data.price,
+                      products._id,
+                      products.price,
                       amount,
-                      data.thumbnail
+                      products.thumbnail
                     )
                   }
                 >
@@ -343,7 +344,7 @@ const Detail = () => {
           <Typography variant="h6">
             Product Specifications & Product Description
           </Typography>
-          <Typography>{data.description}</Typography>
+          <Typography>{products.description}</Typography>
         </Grid>
       </Grid>
     </Grid>

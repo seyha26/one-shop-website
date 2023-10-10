@@ -19,10 +19,11 @@ const userSchema = new mongoose.Schema({
   cart: {
     items: [
       {
-        productId: { type: mongoose.Schema.Types.ObjectId, required: true },
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
         qty: { type: Number, required: true },
       },
     ],
+    totalItems: Number,
     totalPrice: Number,
   },
 });

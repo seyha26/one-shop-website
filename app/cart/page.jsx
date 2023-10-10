@@ -12,7 +12,7 @@ import {
   Button,
   Divider,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Icon } from "@iconify/react";
 import {
@@ -22,6 +22,8 @@ import {
 } from "@/redux/features/actions";
 import { json } from "react-router-dom";
 import uuidv3 from "uuid";
+import { useSession } from "next-auth/react";
+import { getUserCart } from "@/redux/features/actions";
 
 // const sendData = async () => {
 //   await fetch("http://localhost:5000", {
@@ -43,6 +45,7 @@ import uuidv3 from "uuid";
 const Cart = () => {
   const productInCart = useSelector((state) => state.products.ordered);
   const dispatch = useDispatch();
+  const { data } = useSession();
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {

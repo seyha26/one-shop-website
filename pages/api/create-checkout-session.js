@@ -6,6 +6,7 @@ const handler = async (req, res) => {
   if (req.method === "POST") {
     try {
       const data = req.body;
+      console.log("data", data);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         mode: "payment",
@@ -14,18 +15,18 @@ const handler = async (req, res) => {
             price_data: {
               currency: "usd",
               product_data: {
-                name: item.name,
+                name: item.productId.name,
               },
-              unit_amount: item.price * 100,
+              unit_amount: item.productId.price * 100,
             },
-            quantity: item.amount,
+            quantity: item.qty,
             // images: [item.image, item.image],
           };
         }),
         success_url: "http://localhost:3000/",
-        cancel_url: "http://localhost:3000/cart",
+        cancel_url: "http://localhost:3000/",
       });
-      // console.log(session.url);
+      console.log("session.url: ", session.url);
       // console.log(data);
       res.json({ url: session.url });
     } catch (error) {

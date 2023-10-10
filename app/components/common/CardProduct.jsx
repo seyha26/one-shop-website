@@ -17,19 +17,26 @@ import {
   getProducts,
 } from "@/redux/features/actions";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
 
 const CardProduct = ({ item, itemId, inCart }) => {
   const dispatch = useDispatch();
   const Router = useRouter();
+  const { data } = useSession();
+  const userId = data?.user?._id;
   const user = useSelector((state) => state.auth);
-  const addToCarts = (id, name, price, amount, image, total) => {
-    dispatch(addToCart({ id, name, price, amount, image, total }));
+  const success = () => toast.success("Successfully added to Cart!");
+  console.log("item: ", item);
+  const addToCarts = (productId, price, qty, stock, total) => {
+    dispatch(addToCart({ productId, price, qty, stock, userId, total }));
+    success();
     clicked();
   };
   const handleSelectItem = (id) => {
     dispatch(getProductDetail(id));
-    Router.push(`/details/${id}`);
+    Router.push(`/detail/${id}`);
   };
   const clicked = () => {
     dispatch(getProducts());
@@ -40,12 +47,15 @@ const CardProduct = ({ item, itemId, inCart }) => {
       return;
     }
   };
+  // useEffect(() => {
+  //   dispatch();
+  // });
   return (
     <Grid
       className="shadow-xl"
       style={{
-        maxWidth: "235px",
-        height: "360px",
+        maxWidth: "255px",
+        height: "370px",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
@@ -55,26 +65,34 @@ const CardProduct = ({ item, itemId, inCart }) => {
         border: "1px solid #F1EFEF",
       }}
     >
+      <Toaster position="bottom-right" reverseOrder={false} />
       <Grid
         display="flex"
         flexDirection="column"
         alignItems="center"
-        justifyContent="space-between"
+        justifyContent="space-around"
       >
         <CardHeader
-          titleTypographyProps={{ variant: "body" }}
-          title={item.title.slice(0, 17)}
+          titleTypographyProps={{ variant: "body2" }}
+          title={item.name}
         />
-        <CardMedia
-          component="img"
-          sx={{
-            width: "170px",
-            height: "170px",
-          }}
-          image={item.images[0]}
-          alt={`${item.title}`}
-        />
-
+        <Grid
+          width={"200px"}
+          height="170px"
+          display="flex"
+          alignItems={"center"}
+        >
+          {/* <CardMedia
+            component="img"
+            sx={{
+              width: "100%",
+              height: "170px",
+            }}
+            image={item.imageUrl}
+            alt={`${item.name}`}
+          /> */}
+          <img width={"100%"} src={item.imageUrl} alt={item.name} />
+        </Grid>
         <CardContent>
           <Typography>Price: {item.price}$</Typography>
         </CardContent>
@@ -98,7 +116,7 @@ const CardProduct = ({ item, itemId, inCart }) => {
           />
         </IconButton>
         <Button
-          onClick={() => handleSelectItem(item.id)}
+          onClick={() => handleSelectItem(item._id)}
           variant="contained"
           size="sm"
           sx={{
@@ -118,12 +136,11 @@ const CardProduct = ({ item, itemId, inCart }) => {
           }}
           onClick={() =>
             addToCarts(
-              item.id,
-              item.title,
+              item._id,
+
               item.price,
               !item.amount ? 1 : item.amount,
-              item.thumbnail,
-              !item.amount ? item.price * 1 : item.price * item.amount
+              !item.qty ? item.price * 1 : item.price * item.qty
             )
           }
         >

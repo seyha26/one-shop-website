@@ -23,20 +23,26 @@ import { Icon } from "@iconify/react";
 import { SessionProvider, useSession } from "next-auth/react";
 import productCategories from "@/categories/productCategories";
 import { useRouter } from "next/navigation";
-import { addToCart } from "@/redux/features/actions";
+import { addToCart, getUserCart } from "@/redux/features/actions";
 import CardProduct from "./components/common/CardProduct";
 import Link from "next/link";
 import Loading from "./loading";
+import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [itemId, setItemId] = useState("");
+  // const [products, setProducts] = useState([]);
   const { data } = useSession();
   const dispatch = useDispatch();
   const Router = useRouter();
+  console.log(data?.user?._id);
+  dispatch(getUserCart(data?.user?._id));
 
   const products = useSelector((state) => {
     return state.products.products;
   });
+
+  // console.log(products);
 
   const addToCarts = (id, name, price, amount, image, total) => {
     dispatch(addToCart({ id, name, price, amount, image, total }));
@@ -52,25 +58,12 @@ export default function Home() {
     Router.push(`/category/${category}`);
   };
 
-  // const sendData = async () => {
-  //   // dispatch(getProducts());
-  //   await fetch("http://localhost:5000", {
-  //     method: "POST",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //     body: JSON.stringify(useSelector((state) => state.products)),
-  //   })
-  //     .then((res) => console.log(res.json()))
-  //     .catch((err) => {
-  //       console.log(err);
-  //     });
-  // };
-
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);
-
+  const Toaster = () => toast("Hello World");
+  // console.log(products);
+  // (() => )();
   return (
     <Suspense
       fallback={
@@ -78,6 +71,9 @@ export default function Home() {
           sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
           open={true}
         >
+          <div>
+            <Toaster />
+          </div>
           <CircularProgress color="inherit" />
         </Backdrop>
       }
@@ -110,7 +106,6 @@ export default function Home() {
               <Widget side="right" title={`📢Winner Announcement`} />
             </Grid>
           </Grid>
-
           <Grid display={"flex"} justifyContent={"flex-end"} marginY={"30px"}>
             <Typography variant="h5">
               <Link href="/products" className="hover:underline">
@@ -118,68 +113,63 @@ export default function Home() {
               </Link>
             </Typography>
           </Grid>
-          {productCategories.map(
+          {/* {productCategories.map(
             (category, index) =>
-              index < 5 && (
-                <Grid
-                  key={category}
-                  style={{
-                    marginTop: "50px",
-                    overflowX: "auto",
-                    width: "100%",
-                    gap: "1rem",
-                    padding: "20px 10px",
-                    margin: "auto",
-                  }}
-                >
-                  <Grid
-                    width="100%"
-                    display="flex"
-                    justifyContent="space-between"
-                  >
-                    <Typography
-                      variant="h5"
-                      className="cursor-pointer hover:underline font-medium text-slate-700"
-                      onClick={() => handleSelectCategory(category)}
-                    >
-                      {category.toUpperCase()}
-                    </Typography>
-                  </Grid>
-                  <Grid
-                    style={{
-                      marginTop: "20px",
-                      overflowX: "auto",
-                      width: "100%",
-                      padding: "0 10px 40px",
-                      display: "Grid",
-                      gridTemplateColumns: "auto auto auto auto auto",
-                      gap: "1rem",
-                    }}
-                  >
-                    {products && (
+              index < 5 && ( */}
+          <Grid
+            // key={category}
+            style={{
+              marginTop: "50px",
+              overflowX: "auto",
+              width: "100%",
+              gap: "1rem",
+              padding: "20px 10px",
+              margin: "auto",
+            }}
+          >
+            <Grid width="100%" display="flex" justifyContent="space-between">
+              <Typography
+                variant="h5"
+                className="cursor-pointer hover:underline font-medium text-slate-700"
+                // onClick={() => handleSelectCategory(category)}
+              >
+                {/* {category.toUpperCase()} */}
+              </Typography>
+            </Grid>
+            <Grid
+              style={{
+                marginTop: "20px",
+                overflowX: "auto",
+                width: "100%",
+                padding: "0 10px 40px",
+                display: "Grid",
+                gridTemplateColumns: "auto auto auto auto auto",
+                gap: "1rem",
+              }}
+            >
+              {/* {products && (
                       <>
                         {products
                           .filter((p) => {
                             return p.category === category;
-                          })
-                          .map((item) => {
-                            return (
-                              <CardProduct
-                                key={item.id}
-                                item={item}
-                                handleSelectItem={handleSelectItem}
-                                addToCarts={addToCarts}
-                                itemId={itemId}
-                                inCart={item.inCart}
-                              />
-                            );
-                          })}
-                      </>
-                    )}
-                  </Grid>
-                </Grid>
-              )
-          )}
+                          }) */}
+              {products.map((item) => {
+                return (
+                  <CardProduct
+                    key={item._id}
+                    item={item}
+                    handleSelectItem={handleSelectItem}
+                    addToCarts={addToCarts}
+                    itemId={itemId}
+                    inCart={item.inCart}
+                  />
+                );
+              })}
+              {/* </>
+                    )} */}
+            </Grid>
+          </Grid>
+          {/* ) )} */}
         </Grid>
       </Grid>
     </Suspense>
