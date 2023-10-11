@@ -28,7 +28,7 @@ const CardProduct = ({ item, itemId, inCart }) => {
   const userId = data?.user?._id;
   const user = useSelector((state) => state.auth);
   const success = () => toast.success("Successfully added to Cart!");
-  console.log("item: ", item);
+  // console.log("item: ", item);
   const addToCarts = (productId, price, qty, stock, total) => {
     dispatch(addToCart({ productId, price, qty, stock, userId, total }));
     success();

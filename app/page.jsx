@@ -26,17 +26,15 @@ import { useRouter } from "next/navigation";
 import { addToCart, getUserCart } from "@/redux/features/actions";
 import CardProduct from "./components/common/CardProduct";
 import Link from "next/link";
-import Loading from "./loading";
+// import {useSession}
 import toast, { Toaster } from "react-hot-toast";
 
 export default function Home() {
   const [itemId, setItemId] = useState("");
   // const [products, setProducts] = useState([]);
-  const { data } = useSession();
+
   const dispatch = useDispatch();
   const Router = useRouter();
-  console.log(data?.user?._id);
-  dispatch(getUserCart(data?.user?._id));
 
   const products = useSelector((state) => {
     return state.products.products;
@@ -57,10 +55,18 @@ export default function Home() {
     dispatch(getProductsByCategory(category));
     Router.push(`/category/${category}`);
   };
+  const { data } = useSession();
+  const fetchData = () => {
+    dispatch(getUserCart(data?.user?._id));
+  };
 
   useEffect(() => {
     dispatch(getProducts());
-  }, [dispatch]);
+    if (data?.user) {
+      fetchData();
+    }
+  }, [dispatch, data]);
+
   const Toaster = () => toast("Hello World");
   // console.log(products);
   // (() => )();
@@ -98,7 +104,7 @@ export default function Home() {
           marginY="40px"
           padding="10px"
         >
-          <Grid item container spacing={1} marginBottom="100px">
+          <Grid item container spacing={1} sx={{ marginBottom: "100px" }}>
             <Grid item xs={3}>
               <Widget side="left" title="Past Deals Result" />
             </Grid>

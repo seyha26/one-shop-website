@@ -63,9 +63,9 @@ export const getProductDetail = (data, callback) => async (dispatch) => {
         //   return;
         // }
         // console.log("res");
-        return res.json();
+        return res;
       })
-      .catch((error) => console.log("error"));
+      .catch((error) => console.log(error));
     dispatch({
       type: "GET_PRODUCTS_DETAIL",
       payload: res,
@@ -108,16 +108,17 @@ export const addToCart = (data, callback) => async (dispatch) => {
 
 export const getUserCart = (data, callback) => async (dispatch) => {
   try {
-    // console.log("cart");
+    console.log("data:", `http://localhost:3000/api/cart/${data}`);
     const res = await fetch(`http://localhost:3000/api/cart/${data}`)
       .then((res) => {
-        if (res.status !== 200) {
-          return;
-        }
+        // if (res.status !== 200) {
+        //   return;
+        // }
         return res.json();
       })
 
       .catch((error) => console.log(error));
+    console.log(res);
 
     dispatch({ type: "GET_USER_CART", payload: res });
     // return res;

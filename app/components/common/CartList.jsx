@@ -22,7 +22,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
     dispatch(removeProduct(id));
   };
 
-  console.log(data);
+  // console.log(data);
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {

@@ -43,22 +43,22 @@ const LoginForm = () => {
     e.preventDefault();
     try {
       setLoading(true);
-      console.log("first register");
-      console.log("test");
+      // console.log("first register");
+      // console.log("test");
       const apiRes = await axios.post("http://localhost:3000/api/auth/signup", {
         username: data.username,
         password: data.password,
         fullName: data.lastName + " " + data.firstName,
       });
-      console.log(apiRes);
+      // console.log(apiRes);
       if (apiRes?.data?.success) {
-        console.log("api REs");
+        // console.log("api REs");
 
         const loginRes = await loginUser({
           username: data.username,
           password: data.password,
         });
-        console.log(loginRes && !loginRes.ok);
+        // console.log(loginRes && !loginRes.ok);
         if (loginRes && !loginRes.ok) {
           setSubmitError(loginRes.error || "");
         } else {
@@ -97,7 +97,7 @@ const LoginForm = () => {
           <Backdrop
             sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
             open={loading}
-            onClick={loading}
+            onClick={() => setLoading(true)}
           >
             <CircularProgress color="inherit" />
           </Backdrop>

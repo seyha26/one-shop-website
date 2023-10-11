@@ -9,7 +9,7 @@ import { usePathname } from "next/navigation";
 const Headers = () => {
   const pathname = usePathname();
   const { status } = useSession();
-  console.log(status);
+  // console.log(status);
   return (
     <>
       {pathname === "/login" || pathname === "/register" ? (

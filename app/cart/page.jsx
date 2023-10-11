@@ -45,7 +45,6 @@ import { getUserCart } from "@/redux/features/actions";
 const Cart = () => {
   const productInCart = useSelector((state) => state.products.ordered);
   const dispatch = useDispatch();
-  const { data } = useSession();
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {
@@ -222,7 +221,7 @@ const Cart = () => {
               padding="15px"
               borderRadius="5px"
             >
-              <Grid marginBottom={"10px"}>
+              <Grid sx={{ marginBottom: "20px" }}>
                 <Typography margin="20px 0">Cart Totals</Typography>
                 <Divider />
               </Grid>

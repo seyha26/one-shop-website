@@ -51,7 +51,7 @@ const LoginForm = () => {
   };
 
   const { data } = useSession();
-  console.log(data);
+  // console.log(data);
   const showPassword = () => {
     setIsShowPasswor(!isShowPassword);
   };
@@ -133,7 +133,9 @@ const LoginForm = () => {
                       htmlFor="username"
                       fontSize="13px"
                       fontWeight={"600"}
-                      marginBottom={"10px"}
+                      style={{
+                        marginBottom: "10px",
+                      }}
                     >
                       Username
                     </label>
@@ -174,7 +176,9 @@ const LoginForm = () => {
                       htmlFor="password"
                       fontSize="13px"
                       fontWeight={"600"}
-                      marginBottom={"10px"}
+                      style={{
+                        marginBottom: "10px",
+                      }}
                     >
                       Password
                     </label>
