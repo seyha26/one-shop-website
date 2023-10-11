@@ -63,7 +63,7 @@ export const getProductDetail = (data, callback) => async (dispatch) => {
         //   return;
         // }
         // console.log("res");
-        return res;
+        return res.json();
       })
       .catch((error) => console.log(error));
     dispatch({
@@ -85,7 +85,7 @@ export const addToCart = (data, callback) => async (dispatch) => {
         productId: data.productId,
         userId: data.userId,
         qty: data.qty,
-        price: data.price,
+        price: data.price * data.qty,
       }),
       headers: {
         "Content-Type": "application/json",
@@ -109,20 +109,24 @@ export const addToCart = (data, callback) => async (dispatch) => {
 export const getUserCart = (data, callback) => async (dispatch) => {
   try {
     console.log("data:", `http://localhost:3000/api/cart/${data}`);
-    const res = await fetch(`http://localhost:3000/api/cart/${data}`)
-      .then((res) => {
-        // if (res.status !== 200) {
-        //   return;
-        // }
-        return res.json();
-      })
+    if (data) {
+      const res = await fetch(`http://localhost:3000/api/cart/${data}`)
+        .then((res) => {
+          // if (res.status !== 200) {
+          //   return;
+          // }
+          return res.json();
+        })
 
-      .catch((error) => console.log(error));
-    console.log(res);
+        .catch((error) => console.log(error));
+      // console.log(res);
 
-    dispatch({ type: "GET_USER_CART", payload: res });
+      dispatch({ type: "GET_USER_CART", payload: res });
+    }
     // return res;
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+  }
 };
 
 export const getProductsByCategory = (data, callback) => async (dispatch) => {
@@ -144,11 +148,27 @@ export const getProductsByCategory = (data, callback) => async (dispatch) => {
   }
 };
 
-export const removeProduct = (id) => (dispatch) => {
+export const removeProduct = (data) => async (dispatch) => {
   try {
+    console.log("data", data.userId);
+    const res = await fetch("http://localhost:3000/api/remove-from-cart", {
+      method: "POST",
+      body: JSON.stringify({
+        productId: data.productId,
+        userId: data.userId,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .catch((error) => console.log(error));
+    console.log(res);
     dispatch({
       type: "REMOVE_PRODUCT",
-      payload: id,
+      payload: res,
     });
   } catch (error) {
     console.log(error);

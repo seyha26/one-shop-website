@@ -15,12 +15,25 @@ export default async function handler(req, res) {
         (item) => item.productId == productId
       );
 
-      // console.log(cartItemIndex);
+      const items = user.cart.items;
+      console.log(user.cart.totalItems);
+
+      if (items.length === 0) {
+        user.cart.totalPrice = 0;
+        user.cart.totalItems = 0;
+      }
+
+      console.log(cartItemIndex);
       if (cartItemIndex !== -1) {
         user.cart.items[cartItemIndex].qty += qty;
+        console.log(user.cart.totalPrice);
       } else {
         user.cart.items.push({ productId: productId, qty: qty });
+
+        console.log(user.cart.totalPrice);
       }
+      user.cart.totalPrice += price;
+      user.cart.totalItems += qty;
 
       // await User.findOne({ _id: userId })
       //   .then((result) => {

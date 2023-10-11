@@ -14,15 +14,20 @@ import Image from "next/image";
 import Link from "next/link";
 import { getUserCart, removeProduct } from "@/redux/features/actions";
 import { Icon } from "@iconify/react";
+import { useSession } from "next-auth/react";
 
 const CartList = ({ handleClose, open, setOpen }) => {
-  const data = useSelector((state) => state.products.ordered);
+  const orderedProducts = useSelector((state) => state.products.ordered);
+  const total = useSelector((state) => state.products.totalprice);
+  const totalItems = useSelector((state) => state.products.totalItems);
+  const { data } = useSession();
   const dispatch = useDispatch();
-  const removeItem = (id) => {
-    dispatch(removeProduct(id));
+  const removeItem = (productId) => {
+    dispatch(removeProduct({ productId, userId: data.user._id }));
+    setTimeout(() => dispatch(getUserCart(data?.user?._id)), 400);
   };
 
-  // console.log(data);
+  // console.log(orderedProducts);
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {
@@ -30,7 +35,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(data),
+      body: JSON.stringify(orderedProducts),
     })
       .then((res) => {
         if (res.ok) return res.json();
@@ -108,8 +113,8 @@ const CartList = ({ handleClose, open, setOpen }) => {
             </Grid>
             <Divider />
 
-            {data &&
-              data.map((item, index) => (
+            {orderedProducts &&
+              orderedProducts.map((item, index) => (
                 <Grid key={index}>
                   <Divider />
                   <Grid
@@ -173,19 +178,10 @@ const CartList = ({ handleClose, open, setOpen }) => {
               justifyContent={"space-between"}
             >
               <Typography variant="body2" className="text-xl">
-                Subtotal Amt.: $
-                {data
-                  .map((item) => item)
-                  .reduce((prevValue, currentValue) => {
-                    return prevValue + currentValue.price * currentValue.amount;
-                  }, 0)}
+                Subtotal Amt.: ${total}
               </Typography>
               <Typography variant="body2" className="text-xl">
-                {data
-                  .map((item) => item.amount)
-                  .reduce((prevValue, currentValue) => {
-                    return prevValue + currentValue;
-                  }, 0)}
+                {totalItems}
                 Items
               </Typography>
             </Grid>
@@ -219,7 +215,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
                   },
                 }}
                 onClick={() => checkOut()}
-                disabled={data.length === 0 ? true : false}
+                disabled={orderedProducts.length === 0 ? true : false}
               >
                 Check Out
               </Button>

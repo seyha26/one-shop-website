@@ -21,6 +21,7 @@ import {
 } from "@/redux/features/actions";
 import { Icon } from "@iconify/react";
 import { SessionProvider, useSession } from "next-auth/react";
+// import { useSession } from "next";
 import productCategories from "@/categories/productCategories";
 import { useRouter } from "next/navigation";
 import { addToCart, getUserCart } from "@/redux/features/actions";
@@ -32,6 +33,7 @@ import toast, { Toaster } from "react-hot-toast";
 export default function Home() {
   const [itemId, setItemId] = useState("");
   // const [products, setProducts] = useState([]);
+  const { data } = useSession();
 
   const dispatch = useDispatch();
   const Router = useRouter();
@@ -55,17 +57,20 @@ export default function Home() {
     dispatch(getProductsByCategory(category));
     Router.push(`/category/${category}`);
   };
-  const { data } = useSession();
+  // console.log(data);
   const fetchData = () => {
-    dispatch(getUserCart(data?.user?._id));
+    if (data?.user?._id) {
+      dispatch(getUserCart(data?.user?._id));
+    }
   };
+  fetchData();
 
   useEffect(() => {
     dispatch(getProducts());
-    if (data?.user) {
-      fetchData();
-    }
-  }, [dispatch, data]);
+    // if (data?.user) {
+
+    // }
+  }, [dispatch]);
 
   const Toaster = () => toast("Hello World");
   // console.log(products);

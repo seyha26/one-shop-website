@@ -28,6 +28,8 @@ const Detail = () => {
   const amount = parseInt(value);
   const products = useSelector((state) => state.products.selectedProduct);
   const userId = data?.user?._id;
+  // console.log(products);
+
   const decrement = () => {
     if (amount > 0) {
       setValue(amount - 1);
