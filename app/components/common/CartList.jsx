@@ -22,12 +22,11 @@ const CartList = ({ handleClose, open, setOpen }) => {
   const totalItems = useSelector((state) => state.products.totalItems);
   const { data } = useSession();
   const dispatch = useDispatch();
-  const removeItem = (productId) => {
-    dispatch(removeProduct({ productId, userId: data.user._id }));
-    setTimeout(() => dispatch(getUserCart(data?.user?._id)), 400);
-  };
+  // const removeItem = (productId) => {
+  //   dispatch(removeProduct({ productId, userId: data.user._id }));
+  // };
 
-  // console.log(orderedProducts);
+  console.log(orderedProducts);
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {
@@ -162,7 +161,14 @@ const CartList = ({ handleClose, open, setOpen }) => {
                           top: "-17px",
                           right: "-17px",
                         }}
-                        onClick={() => removeItem(item._id)}
+                        onClick={() => {
+                          dispatch(
+                            removeProduct({
+                              productId: item._id,
+                              userId: data.user._id,
+                            })
+                          );
+                        }}
                       >
                         <Icon icon="zondicons:close-outline" />
                       </IconButton>

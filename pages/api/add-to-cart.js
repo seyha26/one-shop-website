@@ -26,9 +26,14 @@ export default async function handler(req, res) {
       console.log(cartItemIndex);
       if (cartItemIndex !== -1) {
         user.cart.items[cartItemIndex].qty += qty;
+        user.cart.items[cartItemIndex].productTotalPrice += price;
         console.log(user.cart.totalPrice);
       } else {
-        user.cart.items.push({ productId: productId, qty: qty });
+        user.cart.items.push({
+          productId: productId,
+          qty: qty,
+          productTotalPrice: qty * price,
+        });
 
         console.log(user.cart.totalPrice);
       }

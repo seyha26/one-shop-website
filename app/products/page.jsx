@@ -35,7 +35,7 @@ const Products = () => {
     dispatch(getProductDetail(id));
     Router.push(`/details/${id}`);
   };
-  const addToCarts = () => {};
+  // const addToCarts = () => {};
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);

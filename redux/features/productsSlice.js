@@ -102,7 +102,12 @@ export default function (state = initialState, action) {
       //   (item) => item.id !== action.payload
       // );
       // return { ...state, products: newProducts, ordered: action.payload.cart.items };
-      return { ...state, ordered: action.payload.cart.items };
+      return {
+        ...state,
+        ordered: action.payload.cart.items,
+        totalprice: action.payload.cart.totalPrice,
+        totalItems: action.payload.cart.totalItems,
+      };
     }
     case "INCREMENT": {
       const newOrdered = state.ordered.map((item) => {
