@@ -15,6 +15,7 @@ const initialState = {
   totalItems: "",
   ordered: [],
   favorite: [],
+  inFav: false,
 };
 
 export default function (state = initialState, action) {
@@ -28,10 +29,26 @@ export default function (state = initialState, action) {
       //   });
       //   return product;
       // });
-      // console.log(action);
+      console.log("Get product: ", state.favorite, action.payload);
+      const products = action.payload.map((pro) => {
+        console.log(pro);
+        state.favorite.map((fav) => {
+          console.log(fav);
+          return fav.productId._id === pro._id
+            ? (pro = { ...pro, inFav: true })
+            : pro;
+        });
+        state.ordered.map((item) => {
+          return item.productId._id === pro._id
+            ? (pro = { ...pro, inCart: true })
+            : pro;
+        });
+        return pro;
+      });
+      console.log(products);
       return {
         ...state,
-        products: action.payload,
+        products: products,
       };
     case "GET_PRODUCTS_DETAIL":
       return {
@@ -84,27 +101,68 @@ export default function (state = initialState, action) {
       // } else {
       //   return { ...state, ordered: [...state.ordered, state.cart] };
       // }
-      return { ...state, ordered: action.payload.cart.items };
+      console.log("Add to cart: ", action);
+      const newProducts = state.products.map((pro) => {
+        action.payload.cart.items.map((item) => {
+          console.log("item", item);
+          return item.productId === pro._id
+            ? (pro = { ...pro, inCart: true })
+            : pro;
+        });
+        return pro;
+      });
+      console.log("New Product: ", newProducts);
+
+      return {
+        ...state,
+        ordered: action.payload.cart.items,
+        products: newProducts,
+      };
     case "GET_PRODUCTS_BY_CATEGORY":
       return {
         ...state,
         productsByCategory: action.payload.products,
       };
     case "REMOVE_PRODUCT": {
-      // const newProducts = state.products.map((product) => {
-      //   return product.id === action.payload
-      //     ? (product = { ...product, inCart: false })
-      //     : product;
+      console.log(action);
+      const newProducts = state.products.map((pro) => {
+        console.log(
+          "item",
+          pro._id == action.payload.data.productId._id,
+          pro,
+          action.payload.data
+        );
+        // action.payload.res.cart.items.map((item) => {
+        return pro._id === action.payload.data.productId._id
+          ? (pro = { ...pro, inCart: false })
+          : pro;
+        // });
+        // return pro;
+      });
+      console.log("New Product: ", action.payload.res);
+      // const newCartItem = action.payload.cart.items;
+      // const newProduct = state.products.map((product) => {
+      //   newCartItem.map((item, index) => {
+      //     // console.log(
+      //     //   "Items and products",
+      //     //   item.productId._id,
+      //     //   "Product: ",
+      //     //   products._id
+      //     // );
+      //     console.log(index, "Item", item.productId._id !== product._id);
+      //     return item.productId._id === product._id
+      //       ? (product = { ...product, inCart: true })
+      //       : product;
+      //   });
+      //   return product;
       // });
-      // const newOrdered = state.ordered.filter(
-      //   (item) => item.id !== action.payload
-      // );
-      // return { ...state, products: newProducts, ordered: action.payload.cart.items };
+      // console.log(newCartItem);
       return {
         ...state,
-        ordered: action.payload.cart.items,
-        totalprice: action.payload.cart.totalPrice,
-        totalItems: action.payload.cart.totalItems,
+        products: newProducts,
+        ordered: action.payload.res.cart.items,
+        totalprice: action.payload.res.cart.totalPrice,
+        totalItems: action.payload.res.cart.totalItems,
       };
     }
     case "INCREMENT": {

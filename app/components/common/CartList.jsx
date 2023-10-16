@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Dialog,
@@ -12,7 +12,11 @@ import { CloseOutlined } from "@mui/icons-material";
 import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
-import { getUserCart, removeProduct } from "@/redux/features/actions";
+import {
+  getProducts,
+  getUserCart,
+  removeProduct,
+} from "@/redux/features/actions";
 import { Icon } from "@iconify/react";
 import { useSession } from "next-auth/react";
 
@@ -46,6 +50,9 @@ const CartList = ({ handleClose, open, setOpen }) => {
         console.log(err);
       });
   };
+  useEffect(() => {
+    dispatch(getProducts());
+  }, [dispatch]);
   return (
     <Grid
       sx={{
@@ -164,7 +171,8 @@ const CartList = ({ handleClose, open, setOpen }) => {
                         onClick={() => {
                           dispatch(
                             removeProduct({
-                              productId: item._id,
+                              productId: item.productId,
+                              _id: item._id,
                               userId: data.user._id,
                             })
                           );

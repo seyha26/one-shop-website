@@ -178,7 +178,7 @@ export const removeProduct = (data) => async (dispatch) => {
     const res = await fetch("http://localhost:3000/api/remove-from-cart", {
       method: "POST",
       body: JSON.stringify({
-        productId: data.productId,
+        productId: data._id,
         userId: data.userId,
       }),
       headers: {
@@ -192,7 +192,7 @@ export const removeProduct = (data) => async (dispatch) => {
     console.log(res);
     dispatch({
       type: "REMOVE_PRODUCT",
-      payload: res,
+      payload: { res, data },
     });
   } catch (error) {
     console.log(error);

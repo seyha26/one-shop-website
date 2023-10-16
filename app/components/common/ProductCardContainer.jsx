@@ -173,6 +173,7 @@ export default function CartContainer() {
                     addToCarts={addToCarts}
                     itemId={itemId}
                     inCart={item.inCart}
+                    inFav={item.inFav}
                   />
                 );
               })}

@@ -22,14 +22,14 @@ import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from "react-hot-toast";
 
-const CardProduct = ({ item, itemId, inCart }) => {
+const CardProduct = ({ item, itemId, inFav, inCart }) => {
   const dispatch = useDispatch();
   const Router = useRouter();
   const { data } = useSession();
   const userId = data?.user?._id;
   const user = useSelector((state) => state.auth);
   const success = () => toast.success("Successfully added to Cart!");
-  // console.log("item: ", item);
+  console.log("item: ", inCart);
   const addToCarts = (productId, price, qty, stock, total) => {
     dispatch(addToCart({ productId, price, qty, stock, userId, total }));
     success();
@@ -106,12 +106,12 @@ const CardProduct = ({ item, itemId, inCart }) => {
               background: "rgb(255, 220, 204)",
             },
           }}
-          onClick={() => addToFavorite(item._id)}
+          onClick={() => dispatch(addToFav({ productId, userId }))}
         >
           <Icon
             icon="material-symbols:favorite"
             style={{
-              color: "#fff",
+              color: inFav ? "rgb(242, 101, 34)" : "#fff",
               width: "15px",
               height: "15px",
             }}
@@ -136,14 +136,24 @@ const CardProduct = ({ item, itemId, inCart }) => {
               background: "rgb(255, 220, 204)",
             },
           }}
-          onClick={() =>
-            addToCarts(
-              item._id,
-
-              item.price,
-              !item.amount ? 1 : item.amount,
-              !item.qty ? item.price * 1 : item.price * item.qty
-            )
+          onClick={
+            () =>
+              dispatch(
+                addToCart({
+                  productId: item._id,
+                  price: item.price,
+                  qty: !item.amount ? 1 : item.amount,
+                  stock: 16,
+                  userId,
+                  total: item.qty ? item.price * 1 : item.price * item.qty,
+                })
+              )
+            // addToCarts(
+            //   item._id,
+            //   item.price,
+            //   !item.amount ? 1 : item.amount,
+            //   !item.qty ? item.price * 1 : item.price * item.qty
+            // )
           }
         >
           <Icon
