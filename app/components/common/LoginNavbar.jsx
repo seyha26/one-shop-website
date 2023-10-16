@@ -19,10 +19,14 @@ import Search from "./Search";
 import { Icon } from "@iconify/react";
 import { useSelector } from "react-redux";
 import CartList from "./CartList";
+import { useSession } from "next-auth/react";
 const LoginHeader = () => {
   const pathname = usePathname();
   const data = useSelector((state) => state.products.ordered.length);
+  const fav = useSelector((state) => state.products.favorite.length);
+  const session = useSession();
   const [open, setOpen] = React.useState(false);
+  // console.log(session);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -70,18 +74,22 @@ const LoginHeader = () => {
           <>
             <Search />
             <Grid display="flex" gap="1rem">
-              <IconButton
-                sx={{
-                  "&.MuiIconButton-root": {
-                    background: "rgb(255, 220, 204)",
-                  },
-                }}
-              >
-                <Icon
-                  icon="material-symbols:favorite-outline"
-                  style={{ color: "rgb(242, 101, 34)" }}
-                />
-              </IconButton>
+              <Link href={`/favorite/${session?.data?.user?._id}`}>
+                <IconButton
+                  sx={{
+                    "&.MuiIconButton-root": {
+                      background: "rgb(255, 220, 204)",
+                    },
+                  }}
+                >
+                  <Badge badgeContent={fav} color="error">
+                    <Icon
+                      icon="material-symbols:favorite-outline"
+                      style={{ color: "rgb(242, 101, 34)" }}
+                    />
+                  </Badge>
+                </IconButton>
+              </Link>
               <IconButton
                 sx={{
                   "&.MuiIconButton-root": {

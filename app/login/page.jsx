@@ -69,8 +69,8 @@ const LoginForm = () => {
         password,
         callbackUrl: "/",
       });
-      console.log(loginRes);
-      console.log(loginRes && !loginRes.ok);
+      // console.log(loginRes);
+      // console.log(loginRes && !loginRes.ok);
       if (loginRes && !loginRes.ok) {
         setSubmitError(loginRes.error || "");
       } else {

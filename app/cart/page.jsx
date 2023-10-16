@@ -45,6 +45,8 @@ import { getUserCart } from "@/redux/features/actions";
 const Cart = () => {
   const productInCart = useSelector((state) => state.products.ordered);
   const dispatch = useDispatch();
+  const totalPrice = useSelector((state) => state.products.totalprice);
+  const { data } = useSession();
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {
@@ -64,9 +66,10 @@ const Cart = () => {
         console.log(err);
       });
   };
+  // console.log(totalPrice);
 
-  const removeItem = (id) => {
-    dispatch(removeProduct(id));
+  const removeItem = (productId) => {
+    dispatch(removeProduct({ productId, userId: data?.user._id }));
   };
   const increment = (id) => {
     dispatch(incrementQuntity(id));
@@ -74,6 +77,12 @@ const Cart = () => {
   const decrement = (id) => {
     dispatch(decrementQuntity(id));
   };
+
+  useEffect(() => {
+    if (data?.user?._id) {
+      dispatch(getUserCart(data?.user?._id));
+    }
+  }, [data]);
 
   return (
     <Grid maxWidth={"1300px"} margin="auto">
@@ -109,7 +118,7 @@ const Cart = () => {
                 {productInCart.map((product, index) => (
                   <TableBody key={index}>
                     <TableRow>
-                      <TableCell>{product.name}</TableCell>
+                      <TableCell>{product.productId.name}</TableCell>
                       <TableCell>
                         <Grid
                           maxWidth={"170px"}
@@ -121,7 +130,7 @@ const Cart = () => {
                         >
                           <Button
                             variant="contained"
-                            onClick={() => increment(product.id)}
+                            onClick={() => increment(product.productId.id)}
                             sx={{
                               borderRight: "1px solid #dddddd",
                               "&.MuiButton-contained": {
@@ -143,11 +152,11 @@ const Cart = () => {
                             width={"60px"}
                             textAlign={"center"}
                           >
-                            {product.amount}
+                            {product.qty}
                           </Typography>
                           <Button
                             variant="contained"
-                            onClick={() => decrement(product.id)}
+                            onClick={() => decrement(product._id)}
                             sx={{
                               borderLeft: "1px solid #dddddd",
                               "&.MuiButton-contained": {
@@ -167,12 +176,12 @@ const Cart = () => {
                       </TableCell>
                       <TableCell>
                         <Typography variant="body2">
-                          ${product.price}
+                          ${product.productId.price}
                         </Typography>
                       </TableCell>
                       <TableCell>
                         <Typography variant="body2">
-                          ${product.total}
+                          ${product.productTotalPrice}
                         </Typography>
                       </TableCell>
                       <TableCell sx={{ textAlign: "center" }}>
@@ -186,7 +195,7 @@ const Cart = () => {
                               boxShadow: "none",
                             },
                           }}
-                          onClick={() => removeItem(product.id)}
+                          onClick={() => removeItem(product._id)}
                         >
                           <Icon
                             icon="pajamas:remove"
@@ -232,14 +241,14 @@ const Cart = () => {
                   key={index}
                 >
                   <Typography variant="body2">
-                    {index}. {product.name}
+                    {index}. {product.productId.name}
                   </Typography>
                   <Typography
                     marginRight={"20px"}
                     variant="body2"
                     fontWeight={"600"}
                   >
-                    ${product.total}
+                    ${product.productTotalPrice}
                   </Typography>
                 </Grid>
               ))}
@@ -257,16 +266,7 @@ const Cart = () => {
                 }}
               >
                 <Typography fontWeight={"600"}>Amount to Pay:</Typography>
-                <Typography fontWeight={"600"}>
-                  $
-                  {productInCart
-                    .map((item) => item)
-                    .reduce((prevValue, currentValue) => {
-                      return (
-                        prevValue + currentValue.price * currentValue.amount
-                      );
-                    }, 0)}
-                </Typography>
+                <Typography fontWeight={"600"}>${totalPrice}</Typography>
               </Grid>
               <Button
                 variant="contained"

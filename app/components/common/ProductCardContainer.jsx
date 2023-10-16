@@ -24,7 +24,7 @@ import { SessionProvider, useSession } from "next-auth/react";
 // import { useSession } from "next";
 import productCategories from "@/categories/productCategories";
 import { useRouter } from "next/navigation";
-import { addToCart, getUserCart } from "@/redux/features/actions";
+import { addToCart, getUserCart, getFav } from "@/redux/features/actions";
 import CardProduct from "./CardProduct";
 import Link from "next/link";
 // import {useSession}
@@ -67,10 +67,10 @@ export default function CartContainer() {
 
   useEffect(() => {
     dispatch(getProducts());
-    // if (data?.user) {
-
-    // }
-  }, [dispatch]);
+    if (data?.user) {
+      dispatch(getFav({ userId: data?.user?._id }));
+    }
+  }, [dispatch, data]);
 
   const Toaster = () => toast("Hello World");
   // console.log(products);

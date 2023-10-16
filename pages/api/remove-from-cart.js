@@ -19,7 +19,7 @@ export default async function handler(req, res) {
     //   console.log(item.productId);
     //   return item.productId != productId;
     // });
-    console.log(productId, userId);
+    // console.log(productId, userId);
     // console.log(productIndex);
     if (productIndex >= 0) {
       user.cart.totalPrice -= user.cart.items[productIndex].productTotalPrice;

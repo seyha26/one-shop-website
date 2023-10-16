@@ -16,18 +16,18 @@ export default async function handler(req, res) {
       );
 
       const items = user.cart.items;
-      console.log(user.cart.totalItems);
+      // console.log(user.cart.totalItems);
 
       if (items.length === 0) {
         user.cart.totalPrice = 0;
         user.cart.totalItems = 0;
       }
 
-      console.log(cartItemIndex);
+      // console.log(cartItemIndex);
       if (cartItemIndex !== -1) {
         user.cart.items[cartItemIndex].qty += qty;
         user.cart.items[cartItemIndex].productTotalPrice += price;
-        console.log(user.cart.totalPrice);
+        // console.log(user.cart.totalPrice);
       } else {
         user.cart.items.push({
           productId: productId,
@@ -35,7 +35,7 @@ export default async function handler(req, res) {
           productTotalPrice: qty * price,
         });
 
-        console.log(user.cart.totalPrice);
+        // console.log(user.cart.totalPrice);
       }
       user.cart.totalPrice += price;
       user.cart.totalItems += qty;

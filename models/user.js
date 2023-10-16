@@ -16,6 +16,13 @@ const userSchema = new mongoose.Schema({
     require: [true, "Password is required"],
     select: false,
   },
+  favorite: {
+    items: [
+      {
+        productId: { type: mongoose.Schema.Types.ObjectId, ref: "Product" },
+      },
+    ],
+  },
   cart: {
     items: [
       {

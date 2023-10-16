@@ -14,6 +14,7 @@ const initialState = {
   totalprice: "",
   totalItems: "",
   ordered: [],
+  favorite: [],
 };
 
 export default function (state = initialState, action) {
@@ -33,13 +34,11 @@ export default function (state = initialState, action) {
         products: action.payload,
       };
     case "GET_PRODUCTS_DETAIL":
-      console.log(action);
       return {
         ...state,
         selectedProduct: action.payload,
       };
     case "GET_USER_CART":
-      console.log("action", action);
       if (action.payload) {
         return {
           ...state,
@@ -92,7 +91,6 @@ export default function (state = initialState, action) {
         productsByCategory: action.payload.products,
       };
     case "REMOVE_PRODUCT": {
-      console.log(action);
       // const newProducts = state.products.map((product) => {
       //   return product.id === action.payload
       //     ? (product = { ...product, inCart: false })
@@ -139,6 +137,12 @@ export default function (state = initialState, action) {
         ...state,
         ordered: newOrdered,
       };
+    }
+    case "ADD_FAV": {
+      return { ...state, favorite: action.payload.favorite.items };
+    }
+    case "GET_FAV": {
+      return { ...state, favorite: action.payload.favorite.items };
     }
     default:
       return state;

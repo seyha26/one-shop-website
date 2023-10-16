@@ -6,7 +6,7 @@ const handler = async (req, res) => {
   if (req.method === "POST") {
     try {
       const data = req.body;
-      console.log("data", data);
+      // console.log("data", data);
       const session = await stripe.checkout.sessions.create({
         payment_method_types: ["card"],
         mode: "payment",
@@ -26,7 +26,7 @@ const handler = async (req, res) => {
         success_url: "http://localhost:3000/",
         cancel_url: "http://localhost:3000/",
       });
-      console.log("session.url: ", session.url);
+      // console.log("session.url: ", session.url);
       // console.log(data);
       res.json({ url: session.url });
     } catch (error) {

@@ -15,6 +15,7 @@ import {
   addToCart,
   getProductDetail,
   getProducts,
+  addToFav,
 } from "@/redux/features/actions";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -41,11 +42,12 @@ const CardProduct = ({ item, itemId, inCart }) => {
   const clicked = () => {
     dispatch(getProducts());
   };
-  const addToFav = () => {
-    if (!user.token) {
-      Router.push("/login");
-      return;
-    }
+  const addToFavorite = (productId) => {
+    // if (!user.token) {
+    //   Router.push("/login");
+    //   return;
+    // }
+    dispatch(addToFav({ productId, userId }));
   };
   // useEffect(() => {
   //   dispatch();
@@ -104,7 +106,7 @@ const CardProduct = ({ item, itemId, inCart }) => {
               background: "rgb(255, 220, 204)",
             },
           }}
-          onClick={() => addToFav()}
+          onClick={() => addToFavorite(item._id)}
         >
           <Icon
             icon="material-symbols:favorite"

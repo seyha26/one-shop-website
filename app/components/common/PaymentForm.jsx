@@ -44,7 +44,7 @@ const PaymentForm = async () => {
       });
 
       if (response.data.success) {
-        console.log("Successful payment");
+        // console.log("Successful payment");
         setSeccess(true);
       }
     } catch (error) {
