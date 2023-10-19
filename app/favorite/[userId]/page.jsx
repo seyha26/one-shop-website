@@ -77,8 +77,9 @@ export default function Favorite() {
       <Grid
         sx={{
           display: "Grid",
-          gridTemplateColumns: "auto auto auto auto auto",
+          gridTemplateColumns: "220px 220px 220px 220px 220px",
           gap: "1rem",
+          justifyContent: "space-around",
         }}
       >
         {favProduct &&

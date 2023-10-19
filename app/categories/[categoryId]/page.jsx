@@ -103,7 +103,12 @@ const Category = () => {
             {data.map(
               (item) =>
                 item.category === category && (
-                  <CardProduct key={item._id} item={item} />
+                  <CardProduct
+                    key={item._id}
+                    inCart={item.inCart}
+                    inFav={item.inFav}
+                    item={item}
+                  />
                 )
             )}
           </Grid>

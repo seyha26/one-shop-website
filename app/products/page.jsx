@@ -69,7 +69,12 @@ const Products = () => {
           }}
         >
           {products.map((item) => (
-            <CardProduct key={item.id} item={item} />
+            <CardProduct
+              key={item.id}
+              inCart={item.inCart}
+              inFav={item.inFav}
+              item={item}
+            />
           ))}
         </Grid>
       </Grid>
