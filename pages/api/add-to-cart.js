@@ -9,10 +9,16 @@ export default async function handler(req, res) {
       const { productId, qty, userId, price } = req.body;
 
       // console.log(req.body);
-      const user = await User.findOne({ _id: userId });
+      const user = await User.findOne({ _id: userId })
+        .populate("cart.items.productId")
+        .populate("favorite.items.productId")
+        .exec()
+        .then((result) => {
+          return result;
+        });
 
       const cartItemIndex = user.cart.items.findIndex(
-        (item) => item.productId == productId
+        (item) => item.productId._id == productId._id
       );
 
       const items = user.cart.items;
@@ -23,7 +29,7 @@ export default async function handler(req, res) {
         user.cart.totalItems = 0;
       }
 
-      // console.log(cartItemIndex);
+      console.log(cartItemIndex);
       if (cartItemIndex !== -1) {
         user.cart.items[cartItemIndex].qty += qty;
         user.cart.items[cartItemIndex].productTotalPrice += price;
@@ -45,6 +51,7 @@ export default async function handler(req, res) {
       //     result.cart.items.push({ productId: productId, qty: qty });
       //     result.cart.qty = qty;
       //     result.cart.totalPrice = price;
+      console.log(user.cart.items);
       user.save();
       return res.json(user);
     }

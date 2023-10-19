@@ -21,6 +21,7 @@ import toast, { Toaster } from "react-hot-toast";
 
 export default function Favorite() {
   const favProduct = useSelector((state) => state.products.favorite);
+  // console.log(favProduct.items);
 
   const [itemId, setItemId] = useState("");
   // const [products, setProducts] = useState([]);
@@ -30,7 +31,7 @@ export default function Favorite() {
   const Router = useRouter();
 
   const products = useSelector((state) => {
-    return state.products.products;
+    return state.products.products.favorite;
   });
 
   // console.log(products);
@@ -48,20 +49,22 @@ export default function Favorite() {
     dispatch(getProductsByCategory(category));
     Router.push(`/category/${category}`);
   };
-  // console.log(favProduct);
-  const fetchData = () => {
-    if (data?.user?._id) {
-      dispatch(getUserCart(data?.user?._id));
-    }
-  };
-  fetchData();
+  console.log(favProduct);
+
+  // const fetchData = () => {
+  //   if (data?.user?._id) {
+  //     dispatch(getUserCart(data?.user?._id));
+  //   }
+  // };
 
   useEffect(() => {
     if (data?.user) {
       dispatch(getFav({ userId: data?.user?._id }));
     }
+    // fetchData();
+    dispatch(getUserCart(data?.user?._id));
   }, [dispatch, data]);
-  // console.log(favProduct);
+  console.log(favProduct);
   return (
     <Grid
       sx={{
@@ -80,16 +83,18 @@ export default function Favorite() {
           gap: "1rem",
         }}
       >
-        {favProduct.map((product) => (
-          <CardProduct
-            key={product._id}
-            item={product.productId}
-            handleSelectItem={handleSelectItem}
-            addToCarts={addToCarts}
-            itemId={itemId}
-            // inCart={product.inCart}
-          />
-        ))}
+        {favProduct &&
+          favProduct.map((product) => (
+            <CardProduct
+              key={product._id}
+              item={product.productId}
+              handleSelectItem={handleSelectItem}
+              // addToCarts={addToCarts}
+              itemId={itemId}
+              inFav={product.inFav}
+              inCart={product.inCart}
+            />
+          ))}
       </Grid>
     </Grid>
   );

@@ -66,10 +66,10 @@ export default function CartContainer() {
   fetchData();
 
   useEffect(() => {
-    dispatch(getProducts());
     if (data?.user) {
       dispatch(getFav({ userId: data?.user?._id }));
     }
+    dispatch(getProducts());
   }, [dispatch, data]);
 
   const Toaster = () => toast("Hello World");
@@ -165,12 +165,15 @@ export default function CartContainer() {
                             return p.category === category;
                           }) */}
               {products.map((item) => {
+                {
+                  console.log(item);
+                }
                 return (
                   <CardProduct
                     key={item._id}
                     item={item}
                     handleSelectItem={handleSelectItem}
-                    addToCarts={addToCarts}
+                    // addToCarts={addToCarts}
                     itemId={itemId}
                     inCart={item.inCart}
                     inFav={item.inFav}

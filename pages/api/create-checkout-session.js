@@ -1,7 +1,5 @@
 import Stripe from "stripe";
-const stripe = Stripe(
-  "sk_test_51Nx3uIFnnFfwB2hMo2RkwgNwYXKh242ir63F5ALHbZtyD5w7e64hPx8MEEoup6JftUPzFVk8TeYGj9P1CdBDuePG00p1C57BZF"
-);
+const stripe = Stripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY);
 const handler = async (req, res) => {
   if (req.method === "POST") {
     try {
@@ -26,7 +24,7 @@ const handler = async (req, res) => {
         success_url: "http://localhost:3000/",
         cancel_url: "http://localhost:3000/",
       });
-      // console.log("session.url: ", session.url);
+      console.log("session.url: ", session);
       // console.log(data);
       res.json({ url: session.url });
     } catch (error) {

@@ -69,7 +69,7 @@ const Cart = () => {
   // console.log(totalPrice);
 
   const removeItem = (productId) => {
-    dispatch(removeProduct({ productId, userId: data?.user._id }));
+    dispatch(removeProduct({ _id: productId, userId: data?.user._id }));
   };
   const increment = (id) => {
     dispatch(incrementQuntity(id));
@@ -195,7 +195,15 @@ const Cart = () => {
                               boxShadow: "none",
                             },
                           }}
-                          onClick={() => removeItem(product._id)}
+                          onClick={() =>
+                            dispatch(
+                              removeProduct({
+                                productId: product.productId,
+                                _id: product._id,
+                                userId: data?.user._id,
+                              })
+                            )
+                          }
                         >
                           <Icon
                             icon="pajamas:remove"

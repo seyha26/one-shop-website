@@ -30,7 +30,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
   //   dispatch(removeProduct({ productId, userId: data.user._id }));
   // };
 
-  // console.log(orderedProducts);
+  console.log(orderedProducts);
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {
@@ -50,6 +50,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
         console.log(err);
       });
   };
+
   useEffect(() => {
     dispatch(getProducts());
   }, [dispatch]);

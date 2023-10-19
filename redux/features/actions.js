@@ -23,7 +23,7 @@ export const userLogin = (data, callback) => async (dispatch) => {
   }
 };
 
-export const getProducts = () => async (dispatch) => {
+export const getProducts = (data) => async (dispatch) => {
   try {
     const res = await fetch("http://localhost:3000/api/get-products")
       .then((res) => {
@@ -35,6 +35,7 @@ export const getProducts = () => async (dispatch) => {
         return res.json();
       })
       .catch((err) => console.log(err));
+
     dispatch({
       type: "GET_PRODUCTS",
       payload: res,
@@ -78,7 +79,7 @@ export const getProductDetail = (data, callback) => async (dispatch) => {
 
 export const addToCart = (data, callback) => async (dispatch) => {
   try {
-    // console.log("data", data);
+    console.log("data", data);
     const res = await fetch(`http://localhost:3000/api/add-to-cart`, {
       method: "POST",
       body: JSON.stringify({
@@ -108,6 +109,7 @@ export const addToCart = (data, callback) => async (dispatch) => {
 
 export const addToFav = (data, callback) => async (dispatch) => {
   try {
+    console.log("data: ", data);
     const res = await fetch(
       `http://localhost:3000/api/favorite/${data.userId}`,
       {
@@ -115,6 +117,7 @@ export const addToFav = (data, callback) => async (dispatch) => {
         body: JSON.stringify({
           userId: data.userId,
           productId: data.productId,
+          inFav: data.inFav,
         }),
         headers: {
           "Content-Type": "application/json",
@@ -125,8 +128,7 @@ export const addToFav = (data, callback) => async (dispatch) => {
         return res.json();
       })
       .catch((error) => console.log(error));
-    console.log(res);
-    dispatch({ type: "ADD_FAV", payload: res });
+    dispatch({ type: "ADD_FAV", payload: { res, data } });
   } catch (error) {
     console.log(error);
   }
@@ -189,7 +191,6 @@ export const removeProduct = (data) => async (dispatch) => {
         return res.json();
       })
       .catch((error) => console.log(error));
-    console.log(res);
     dispatch({
       type: "REMOVE_PRODUCT",
       payload: { res, data },

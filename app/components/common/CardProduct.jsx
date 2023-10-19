@@ -16,6 +16,8 @@ import {
   getProductDetail,
   getProducts,
   addToFav,
+  getFav,
+  getUserCart,
 } from "@/redux/features/actions";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
@@ -29,7 +31,6 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
   const userId = data?.user?._id;
   const user = useSelector((state) => state.auth);
   const success = () => toast.success("Successfully added to Cart!");
-  console.log("item: ", inCart);
   const addToCarts = (productId, price, qty, stock, total) => {
     dispatch(addToCart({ productId, price, qty, stock, userId, total }));
     success();
@@ -79,8 +80,8 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
           title={item.name}
         />
         <Grid
-          width={"200px"}
-          height="170px"
+          width={"100px"}
+          height="160px"
           display="flex"
           alignItems={"center"}
         >
@@ -93,7 +94,7 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
             image={item.imageUrl}
             alt={`${item.name}`}
           /> */}
-          <img width={"100%"} src={item.imageUrl} alt={item.name} />
+          <img style={{ width: "200px" }} src={item.imageUrl} alt={item.name} />
         </Grid>
         <CardContent>
           <Typography>Price: {item.price}$</Typography>
@@ -106,7 +107,9 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
               background: "rgb(255, 220, 204)",
             },
           }}
-          onClick={() => dispatch(addToFav({ productId, userId }))}
+          onClick={() => {
+            dispatch(addToFav({ productId: item._id, userId, inFav: !inFav }));
+          }}
         >
           <Icon
             icon="material-symbols:favorite"
@@ -137,17 +140,18 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
             },
           }}
           onClick={
-            () =>
+            () => {
               dispatch(
                 addToCart({
-                  productId: item._id,
+                  productId: item,
                   price: item.price,
                   qty: !item.amount ? 1 : item.amount,
                   stock: 16,
                   userId,
                   total: item.qty ? item.price * 1 : item.price * item.qty,
                 })
-              )
+              );
+            }
             // addToCarts(
             //   item._id,
             //   item.price,
