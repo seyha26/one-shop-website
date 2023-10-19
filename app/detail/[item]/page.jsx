@@ -62,7 +62,6 @@ const Detail = () => {
     router.push("/");
   };
   const success = () => toast.success("Successfully added to Cart!");
-  // console.log(products);
   return (
     <Grid maxWidth="1300px" margin="20px auto" paddingBottom={"300px"}>
       <Toaster position="bottom-right" reverseOrder={false} />
@@ -77,7 +76,7 @@ const Detail = () => {
                 Home
               </Link>
             </Typography>
-            <Link href={`/category/${products.category}`}>
+            <Link href={`/categories/${products.category}`}>
               <Typography className="hover:underline">
                 {products.category}
               </Typography>
@@ -335,7 +334,7 @@ const Detail = () => {
                   <Icon
                     icon="material-symbols:favorite"
                     style={{ color: "#fff", fontSize: "22px" }}
-                  />{" "}
+                  />
                   Add To Cart
                 </Button>
               </Grid>

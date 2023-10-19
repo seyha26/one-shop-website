@@ -11,7 +11,6 @@ export default async function handler(req, res) {
       .then((cart) => {
         return cart;
       });
-    console.log(user);
     const productIndex = user.cart.items.findIndex((item) => {
       return item._id == productId;
     });

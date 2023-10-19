@@ -50,9 +50,6 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
     // }
     dispatch(addToFav({ productId, userId }));
   };
-  // useEffect(() => {
-  //   dispatch();
-  // });
   return (
     <Grid
       className="shadow-xl"
@@ -141,6 +138,7 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
           }}
           onClick={
             () => {
+              success();
               dispatch(
                 addToCart({
                   productId: item,

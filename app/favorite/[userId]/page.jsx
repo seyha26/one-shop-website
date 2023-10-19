@@ -49,7 +49,7 @@ export default function Favorite() {
     dispatch(getProductsByCategory(category));
     Router.push(`/category/${category}`);
   };
-  console.log(favProduct);
+  // console.log(favProduct);
 
   // const fetchData = () => {
   //   if (data?.user?._id) {
@@ -61,10 +61,8 @@ export default function Favorite() {
     if (data?.user) {
       dispatch(getFav({ userId: data?.user?._id }));
     }
-    // fetchData();
     dispatch(getUserCart(data?.user?._id));
   }, [dispatch, data]);
-  console.log(favProduct);
   return (
     <Grid
       sx={{
@@ -91,7 +89,7 @@ export default function Favorite() {
               handleSelectItem={handleSelectItem}
               // addToCarts={addToCarts}
               itemId={itemId}
-              inFav={product.inFav}
+              inFav={true}
               inCart={product.inCart}
             />
           ))}

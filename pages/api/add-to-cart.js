@@ -29,7 +29,7 @@ export default async function handler(req, res) {
         user.cart.totalItems = 0;
       }
 
-      console.log(cartItemIndex);
+      // console.log(cartItemIndex);
       if (cartItemIndex !== -1) {
         user.cart.items[cartItemIndex].qty += qty;
         user.cart.items[cartItemIndex].productTotalPrice += price;
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
       //     result.cart.items.push({ productId: productId, qty: qty });
       //     result.cart.qty = qty;
       //     result.cart.totalPrice = price;
-      console.log(user.cart.items);
+      // console.log(user.cart.items);
       user.save();
       return res.json(user);
     }

@@ -12,7 +12,6 @@ export default async function handler(req, res) {
       .then((result) => {
         return result;
       });
-    console.log(user.cart.items);
     return res.json(user);
   } catch (error) {
     console.log(error);

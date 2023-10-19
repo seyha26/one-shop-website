@@ -66,7 +66,6 @@ const Cart = () => {
         console.log(err);
       });
   };
-  // console.log(totalPrice);
 
   const removeItem = (productId) => {
     dispatch(removeProduct({ _id: productId, userId: data?.user._id }));

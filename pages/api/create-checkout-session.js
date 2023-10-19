@@ -24,7 +24,7 @@ const handler = async (req, res) => {
         success_url: "http://localhost:3000/",
         cancel_url: "http://localhost:3000/",
       });
-      console.log("session.url: ", session);
+      // console.log("session.url: ", session);
       // console.log(data);
       res.json({ url: session.url });
     } catch (error) {

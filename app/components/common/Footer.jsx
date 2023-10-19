@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import React from "react";
 import { Divider, Typography, Grid, IconButton } from "@mui/material";
 import { Icon } from "@iconify/react";
@@ -8,10 +8,10 @@ import productCategories from "@/categories/productCategories";
 import { useDispatch } from "react-redux";
 import { getProductsByCategory } from "@/redux/features/actions";
 const Footer = () => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const selectCategory = (cate) => {
-    dispatch(getProductsByCategory(cate))
-  }
+    dispatch(getProductsByCategory(cate));
+  };
   return (
     <Grid
       sx={{
@@ -24,30 +24,30 @@ const Footer = () => {
           <Typography variant="h6" fontWeight={"bold"}>
             Category
           </Typography>
-          
+
           <Grid container spacing={2}>
-            {
-            productCategories.map((cate, index) => index <= 5 && (
-              <Grid item xs={2} key={cate}>
-              <Link href={`/category/${cate}`}>
-                <Typography
-                
-                  fontWeight="500"
-                  sx={{
-                    display: "inline",
-                    textTransform: "uppercase",
-                    "&:hover": {
-                      color: "#F26522",
-                    },
-                  }}
-                  onClick={() =>  selectCategory(cate)}
-                >
-                  {cate}
-                </Typography>
-              </Link>
-            </Grid>
-            ))
-          }
+            {productCategories.map(
+              (cate, index) =>
+                index <= 5 && (
+                  <Grid item xs={2} key={cate}>
+                    <Link href={`/categories/${cate}`}>
+                      <Typography
+                        fontWeight="500"
+                        sx={{
+                          display: "inline",
+                          textTransform: "uppercase",
+                          "&:hover": {
+                            color: "#F26522",
+                          },
+                        }}
+                        onClick={() => selectCategory(cate)}
+                      >
+                        {cate}
+                      </Typography>
+                    </Link>
+                  </Grid>
+                )
+            )}
           </Grid>
         </Grid>
         <Divider />
@@ -60,19 +60,15 @@ const Footer = () => {
           >
             <Grid container spacing={2}>
               <Grid item xs={3}>
-                <Typography fontWeight="600">
-                  Customer Service
-                </Typography>
+                <Typography fontWeight="600">Customer Service</Typography>
                 <Link href="/contact">
-                  <Typography >Contact Us</Typography>
+                  <Typography>Contact Us</Typography>
                 </Link>
               </Grid>
               <Grid item xs={3}>
-                <Typography fontWeight="600">
-                  About One Shop
-                </Typography>
+                <Typography fontWeight="600">About One Shop</Typography>
                 <Link href="/privacy-policy">
-                  <Typography >Privacy Policy</Typography>
+                  <Typography>Privacy Policy</Typography>
                 </Link>
                 <Link href="/term-condition">
                   <Typography>Terms & Conditions</Typography>
@@ -81,15 +77,11 @@ const Footer = () => {
                   <Typography>Help Center</Typography>
                 </Link>
                 <Link href="/return-refund">
-                  <Typography>
-                    Return & Refund Policy
-                  </Typography>
+                  <Typography>Return & Refund Policy</Typography>
                 </Link>
               </Grid>
               <Grid item xs={3}>
-                <Typography fontWeight="600">
-                  Payment
-                </Typography>
+                <Typography fontWeight="600">Payment</Typography>
                 <Grid container>
                   <Grid item xs={6}>
                     <Grid
@@ -103,7 +95,12 @@ const Footer = () => {
                         margin: "5px",
                       }}
                     >
-                      <Image width="50" height="70" src="/assets/Footer/aba.png" alt="" />
+                      <Image
+                        width="50"
+                        height="70"
+                        src="/assets/Footer/aba.png"
+                        alt=""
+                      />
                     </Grid>
                   </Grid>
                   <Grid item xs={6}>
@@ -118,7 +115,12 @@ const Footer = () => {
                         margin: "5px",
                       }}
                     >
-                      <Image  width="50" height="70" src="/assets/Footer/wechatpay.png" alt="" />
+                      <Image
+                        width="50"
+                        height="70"
+                        src="/assets/Footer/wechatpay.png"
+                        alt=""
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
@@ -135,7 +137,12 @@ const Footer = () => {
                         margin: "5px",
                       }}
                     >
-                      <Image  width="50" height="70" src="/assets/Footer/union_pay.png" alt="" />
+                      <Image
+                        width="50"
+                        height="70"
+                        src="/assets/Footer/union_pay.png"
+                        alt=""
+                      />
                     </Grid>
                   </Grid>
                   <Grid item xs={6}>
@@ -150,7 +157,12 @@ const Footer = () => {
                         margin: "5px",
                       }}
                     >
-                      <Image  width="50" height="70" src="/assets/Footer/alipay.png" alt="" />
+                      <Image
+                        width="50"
+                        height="70"
+                        src="/assets/Footer/alipay.png"
+                        alt=""
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
@@ -167,7 +179,9 @@ const Footer = () => {
                         margin: "5px",
                       }}
                     >
-                      <Image  width="50" height="70"
+                      <Image
+                        width="50"
+                        height="70"
                         src="/assets/Footer/lamar-bank-and-trust.png"
                         alt=""
                       />
@@ -176,21 +190,29 @@ const Footer = () => {
                 </Grid>
               </Grid>
               <Grid item xs={3}>
-                <Typography fontWeight="600">
-                  One Shop App Download
-                </Typography>
+                <Typography fontWeight="600">One Shop App Download</Typography>
                 <Grid container spacing={2} marginTop="3px">
                   <Grid item xs={6}>
                     <Grid>
                       <Link href="https://apps.apple.com/in/app/oneshop/id6446101302">
-                      <Image  width="200" height="20" src="/assets/Footer/downloadappstore.png" alt="" />
+                        <Image
+                          width="200"
+                          height="20"
+                          src="/assets/Footer/downloadappstore.png"
+                          alt=""
+                        />
                       </Link>
                     </Grid>
                   </Grid>
                   <Grid item xs={6}>
                     <Grid>
                       <Link href="https://play.google.com/store/apps/details?id=com.loma.oneshop&pli=1">
-                      <Image  width="200" height="20" src="/assets/Footer/get-it-on.png" alt="" />
+                        <Image
+                          width="200"
+                          height="20"
+                          src="/assets/Footer/get-it-on.png"
+                          alt=""
+                        />
                       </Link>
                     </Grid>
                   </Grid>
@@ -198,23 +220,49 @@ const Footer = () => {
                 <Grid container spacing={2} marginTop="3px">
                   <Grid item xs={6}>
                     <Grid>
-                      <Image  width="150" height="200" src="/assets/logo/qr-code-apple-store.png" alt="" />
+                      <Image
+                        width="150"
+                        height="200"
+                        src="/assets/logo/qr-code-apple-store.png"
+                        alt=""
+                      />
                     </Grid>
                   </Grid>
                   <Grid item xs={6}>
                     <Grid>
-                      <Image  width="150" height="200" src="/assets/logo/qr-code-play-store.png" alt="" />
+                      <Image
+                        width="150"
+                        height="200"
+                        src="/assets/logo/qr-code-play-store.png"
+                        alt=""
+                      />
                     </Grid>
                   </Grid>
                 </Grid>
                 <Typography fontWeight="600" marginTop={3}>
                   Follow Us
                 </Typography>
-                <Grid display={"flex"} justifyContent={"space-between"} marginTop={"10px"}>
-                    <Icon icon="ic:baseline-facebook" style={{ color: "#000", fontSize: "50px"}} />                    
-                    <Icon icon="ri:instagram-fill" style={{ color: "#000", fontSize: "50px"}} />                    
-                    <Icon icon="mdi:youtube" style={{ color: "#000", fontSize: "50px"}} />                    
-                    <Icon icon="ic:baseline-tiktok" style={{ color: "#000", fontSize: "50px"}} />                
+                <Grid
+                  display={"flex"}
+                  justifyContent={"space-between"}
+                  marginTop={"10px"}
+                >
+                  <Icon
+                    icon="ic:baseline-facebook"
+                    style={{ color: "#000", fontSize: "50px" }}
+                  />
+                  <Icon
+                    icon="ri:instagram-fill"
+                    style={{ color: "#000", fontSize: "50px" }}
+                  />
+                  <Icon
+                    icon="mdi:youtube"
+                    style={{ color: "#000", fontSize: "50px" }}
+                  />
+                  <Icon
+                    icon="ic:baseline-tiktok"
+                    style={{ color: "#000", fontSize: "50px" }}
+                  />
                 </Grid>
               </Grid>
             </Grid>

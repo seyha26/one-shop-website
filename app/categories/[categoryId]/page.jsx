@@ -27,6 +27,7 @@ import productCategories from "@/categories/productCategories";
 import { Icon } from "@iconify/react";
 
 const Category = () => {
+  const [categories, setCategories] = useState("Smartphone");
   const dispatch = useDispatch();
   const handleSelectCategory = (cate) => {
     dispatch(getProductsByCategory(cate));
@@ -36,10 +37,10 @@ const Category = () => {
     dispatch(getProductsByCategory(category));
   }, [dispatch]);
   const pathname = usePathname();
-  const category = pathname.replace("/category/", "");
-  const data = useSelector((state) => state.products.productsByCategory);
+  const category = pathname.replace("/categories/", "");
+  const data = useSelector((state) => state.products.products);
   return (
-    <Grid maxWidth={"1300px"} marginX={"auto"}>
+    <Grid maxWidth={"1300px"} marginX={"auto"} padding={"0 20px"}>
       <Grid margin={"20px 0"} zIndex={"999"}>
         <Stack>
           <Breadcrumbs
@@ -50,7 +51,7 @@ const Category = () => {
               <Typography>Home</Typography>
             </Link>
             <Typography>Categories</Typography>
-            <Typography>{category}</Typography>
+            <Typography>{categories}</Typography>
           </Breadcrumbs>
         </Stack>
       </Grid>
@@ -65,16 +66,17 @@ const Category = () => {
             >
               <Icon icon="ion:list" /> All Categories
             </Typography>
-            {productCategories.map((cate, index) => (
+            {productCategories.map((cate) => (
               <h1
                 key={cate}
                 style={{
                   textTransform: "uppercase",
-                  color: pathname === `/category/${cate}` && "red",
+                  color: category === cate && "red",
+                  cursor: "pointer",
                 }}
-                onClick={() => handleSelectCategory(cate)}
+                onClick={() => setCategories(cate)}
               >
-                <Link href={`/category/${cate}`}>{cate}</Link>
+                <Link href={`/categories/${cate}`}>{cate}</Link>
                 <Divider />
               </h1>
             ))}
@@ -93,14 +95,17 @@ const Category = () => {
           <Grid
             style={{
               display: "Grid",
-              gridTemplateColumns: "auto auto auto auto",
+              gridTemplateColumns: "220px 220px 220px 220px",
               padding: "30px 0",
               gridGap: "2rem 1rem",
             }}
           >
-            {data.map((item) => (
-              <CardProduct key={item.id} item={item} />
-            ))}
+            {data.map(
+              (item) =>
+                item.category === category && (
+                  <CardProduct key={item._id} item={item} />
+                )
+            )}
           </Grid>
         </Grid>
       </Grid>

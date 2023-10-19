@@ -4,7 +4,6 @@ export default async function handler(req, res) {
   connectToMongoDB().catch((error) => console.log(error));
   try {
     const { userId, productId, inFav } = req.body;
-    console.log(inFav);
     const user = await User.findById(userId)
       .populate("favorite.items.productId")
       .exec()
@@ -21,8 +20,6 @@ export default async function handler(req, res) {
     if (!inFav) {
       user.favorite.items.splice(productExisting, 1);
     }
-    console.log(user.favorite.items);
-    // console.log(user.favorite.items);
     user.save();
     return res.json(user);
   } catch (error) {

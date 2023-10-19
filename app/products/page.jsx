@@ -40,7 +40,7 @@ const Products = () => {
     dispatch(getProducts());
   }, [dispatch]);
   return (
-    <Grid maxWidth={"1300px"} margin={"30px auto"}>
+    <Grid maxWidth={"1300px"} margin={"30px auto"} padding={"0 20px"}>
       <Grid>
         <Grid margin={"20px 0"}>
           <Stack>
@@ -63,8 +63,9 @@ const Products = () => {
         <Grid
           sx={{
             display: "Grid",
-            gridTemplateColumns: "auto auto auto auto auto",
+            gridTemplateColumns: "220px 220px 220px 220px 220px",
             gridGap: "30px 10px",
+            justifyContent: "space-around",
           }}
         >
           {products.map((item) => (

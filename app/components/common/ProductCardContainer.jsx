@@ -124,67 +124,71 @@ export default function CartContainer() {
               </Link>
             </Typography>
           </Grid>
-          {/* {productCategories.map(
+          {productCategories.map(
             (category, index) =>
-              index < 5 && ( */}
-          <Grid
-            // key={category}
-            style={{
-              marginTop: "50px",
-              overflowX: "auto",
-              width: "100%",
-              gap: "1rem",
-              padding: "20px 10px",
-              margin: "auto",
-            }}
-          >
-            <Grid width="100%" display="flex" justifyContent="space-between">
-              <Typography
-                variant="h5"
-                className="cursor-pointer hover:underline font-medium text-slate-700"
-                // onClick={() => handleSelectCategory(category)}
-              >
-                {/* {category.toUpperCase()} */}
-              </Typography>
-            </Grid>
-            <Grid
-              style={{
-                marginTop: "20px",
-                overflowX: "auto",
-                width: "100%",
-                padding: "0 10px 40px",
-                display: "Grid",
-                gridTemplateColumns: "auto auto auto auto auto",
-                gap: "1rem",
-              }}
-            >
-              {/* {products && (
+              index < 5 && (
+                <Grid
+                  key={category}
+                  style={{
+                    marginTop: "50px",
+                    overflowX: "auto",
+                    width: "100%",
+                    gap: "1rem",
+                    padding: "20px 10px",
+                    margin: "auto",
+                  }}
+                >
+                  <Grid
+                    width="100%"
+                    display="flex"
+                    justifyContent="space-between"
+                  >
+                    <Link href={`/categories/${category}`}>
+                      <Typography
+                        variant="h5"
+                        className="cursor-pointer hover:underline font-medium text-slate-700"
+                      >
+                        {category.toUpperCase()}
+                      </Typography>
+                    </Link>
+                  </Grid>
+                  <Grid
+                    style={{
+                      marginTop: "20px",
+                      overflowX: "auto",
+                      width: "100%",
+                      padding: "0 10px 40px",
+                      display: "Grid",
+                      gridTemplateColumns: "210px 210px 210px 210px 210px",
+                      gap: "1rem",
+                      justifyContent: "space-between",
+                    }}
+                  >
+                    {products && (
                       <>
                         {products
                           .filter((p) => {
                             return p.category === category;
-                          }) */}
-              {products.map((item) => {
-                {
-                  console.log(item);
-                }
-                return (
-                  <CardProduct
-                    key={item._id}
-                    item={item}
-                    handleSelectItem={handleSelectItem}
-                    // addToCarts={addToCarts}
-                    itemId={itemId}
-                    inCart={item.inCart}
-                    inFav={item.inFav}
-                  />
-                );
-              })}
-              {/* </>
-                    )} */}
-            </Grid>
-          </Grid>
-          {/* ) )} */}
+                          })
+                          .map((item) => {
+                            return (
+                              <CardProduct
+                                key={item._id}
+                                item={item}
+                                handleSelectItem={handleSelectItem}
+                                // addToCarts={addToCarts}
+                                itemId={itemId}
+                                inCart={item.inCart}
+                                inFav={item.inFav}
+                              />
+                            );
+                          })}
+                      </>
+                    )}
+                  </Grid>
+                </Grid>
+              )
+          )}
         </Grid>
       </Grid>
     </Suspense>

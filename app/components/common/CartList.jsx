@@ -19,6 +19,7 @@ import {
 } from "@/redux/features/actions";
 import { Icon } from "@iconify/react";
 import { useSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
 
 const CartList = ({ handleClose, open, setOpen }) => {
   const orderedProducts = useSelector((state) => state.products.ordered);
@@ -29,8 +30,6 @@ const CartList = ({ handleClose, open, setOpen }) => {
   // const removeItem = (productId) => {
   //   dispatch(removeProduct({ productId, userId: data.user._id }));
   // };
-
-  console.log(orderedProducts);
 
   const checkOut = async () => {
     await fetch("http://localhost:3000/api/create-checkout-session", {
@@ -50,6 +49,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
         console.log(err);
       });
   };
+  const removed = () => toast.success("Removed product from cart!");
 
   useEffect(() => {
     dispatch(getProducts());
@@ -60,6 +60,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
         overflow: "auto",
       }}
     >
+      <Toaster position="bottom-right" reverseOrder={false} />
       <div
         style={{
           position: "relative",
@@ -170,6 +171,7 @@ const CartList = ({ handleClose, open, setOpen }) => {
                           right: "-17px",
                         }}
                         onClick={() => {
+                          removed();
                           dispatch(
                             removeProduct({
                               productId: item.productId,
