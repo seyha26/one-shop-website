@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Grid,
   Typography,
@@ -26,6 +26,7 @@ import { Route } from "react-router-dom";
 import { loginUser } from "@/helpers";
 import { AxiosError } from "axios";
 import { useSession } from "next-auth/react";
+import toast, { Toaster } from "react-hot-toast";
 
 const LoginForm = () => {
   const [submitError, setSubmitError] = useState("");
@@ -74,6 +75,7 @@ const LoginForm = () => {
       if (loginRes && !loginRes.ok) {
         setSubmitError(loginRes.error || "");
       } else {
+        loginSuccess();
         router.push("/");
       }
     } catch (error) {
@@ -85,12 +87,23 @@ const LoginForm = () => {
 
     setLoading(false);
   };
+  const loginError = () =>
+    toast.error("Please check your username or password it's not correct!");
+  const loginSuccess = () => toast.success("Logged In");
+
+  useEffect(() => {
+    if (submitError) {
+      loginError();
+    }
+    setTimeout(() => setSubmitError(""), 1000);
+  }, [submitError]);
   return (
     <Grid
       sx={{
         background: "#F5F5F5",
       }}
     >
+      <Toaster position="bottom-right" reverseOrder={false} />
       <Grid container padding="40px 0">
         <Grid
           boxShadow={10}
@@ -231,6 +244,7 @@ const LoginForm = () => {
                       Forgot Password
                     </Link>
                   </Grid>
+
                   <Grid
                     display={"flex"}
                     justifyContent={"space-between"}

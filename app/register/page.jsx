@@ -23,6 +23,7 @@ import axios, { Axios, AxiosError } from "axios";
 import { loginUser } from "@/helpers";
 import { useRouter } from "next/navigation";
 import Loading from "../loading";
+import toast, { Toaster } from "react-hot-toast";
 
 const LoginForm = () => {
   const [submitError, setSubmitError] = useState("");
@@ -62,6 +63,7 @@ const LoginForm = () => {
         if (loginRes && !loginRes.ok) {
           setSubmitError(loginRes.error || "");
         } else {
+          loginSuccess();
           router.push("/");
         }
       }
@@ -74,12 +76,15 @@ const LoginForm = () => {
     setLoading(false);
   };
 
+  const loginSuccess = () => toast.success("Logged In");
+
   return (
     <Grid
       sx={{
         background: "#F5F5F5",
       }}
     >
+      <Toaster position="bottom-right" />
       <Grid container padding="40px 0" className="px-2 md:p-0">
         <Grid
           item
