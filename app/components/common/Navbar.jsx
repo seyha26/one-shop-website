@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 
 const Headers = () => {
   const pathname = usePathname();
-  const { status } = useSession();
+  const { data } = useSession();
   // console.log(status);
   return (
     <>
@@ -16,7 +16,7 @@ const Headers = () => {
         <LoginNavbar />
       ) : (
         <>
-          <Header data={status} />
+          <Header data={data} />
           <LoginNavbar />
         </>
       )}

@@ -17,6 +17,14 @@ import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/navigation";
 
 const Header = ({ data }) => {
+  const [isLogin, setIsLogin] = useState(false);
+  useEffect(() => {
+    if (data?.user) {
+      setIsLogin(true);
+    } else {
+      setIsLogin(false);
+    }
+  }, [data]);
   return (
     <Grid
       container
@@ -126,7 +134,7 @@ const Header = ({ data }) => {
             >
               Recharge
             </Button>
-            {data.user ? (
+            {isLogin ? (
               <Link href="/login">
                 <Button
                   variant="contained"
