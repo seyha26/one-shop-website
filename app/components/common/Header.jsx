@@ -126,7 +126,7 @@ const Header = ({ data }) => {
             >
               Recharge
             </Button>
-            {data === "authenticated" ? (
+            {data.user ? (
               <Link href="/login">
                 <Button
                   variant="contained"
