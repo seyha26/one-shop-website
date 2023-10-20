@@ -21,8 +21,10 @@ const handler = async (req, res) => {
             // images: [item.image, item.image],
           };
         }),
-        success_url: "/",
-        cancel_url: "/",
+        // success_url: "http://localhost:3000",
+        // cancel_url: "http://localhost:3000",
+        success_url: "https://one-shop-website.vercel.app/",
+        cancel_url: "https://one-shop-website.vercel.app/",
       });
       // console.log("session.url: ", session);
       // console.log(data);
