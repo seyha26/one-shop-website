@@ -61,24 +61,19 @@ const Footer = () => {
             <Grid container spacing={2}>
               <Grid item xs={3}>
                 <Typography fontWeight="600">Customer Service</Typography>
-                <Link href="/contact">
-                  <Typography>Contact Us</Typography>
-                </Link>
+
+                <Typography>Contact Us</Typography>
               </Grid>
               <Grid item xs={3}>
                 <Typography fontWeight="600">About One Shop</Typography>
-                <Link href="/privacy-policy">
-                  <Typography>Privacy Policy</Typography>
-                </Link>
-                <Link href="/term-condition">
-                  <Typography>Terms & Conditions</Typography>
-                </Link>
-                <Link href="/help-center">
-                  <Typography>Help Center</Typography>
-                </Link>
-                <Link href="/return-refund">
-                  <Typography>Return & Refund Policy</Typography>
-                </Link>
+
+                <Typography>Privacy Policy</Typography>
+
+                <Typography>Terms & Conditions</Typography>
+
+                <Typography>Help Center</Typography>
+
+                <Typography>Return & Refund Policy</Typography>
               </Grid>
               <Grid item xs={3}>
                 <Typography fontWeight="600">Payment</Typography>
