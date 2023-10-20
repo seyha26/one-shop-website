@@ -35,7 +35,7 @@ const Category = () => {
 
   useEffect(() => {
     dispatch(getProductsByCategory(category));
-  }, [dispatch, category]);
+  }, [dispatch]);
   const pathname = usePathname();
   const category = pathname.replace("/categories/", "");
   const data = useSelector((state) => state.products.products);
@@ -51,7 +51,7 @@ const Category = () => {
               <Typography>Home</Typography>
             </Link>
             <Typography>Categories</Typography>
-            <Typography>{categories}</Typography>
+            <Typography>{category}</Typography>
           </Breadcrumbs>
         </Stack>
       </Grid>
