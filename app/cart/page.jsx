@@ -81,7 +81,7 @@ const Cart = () => {
     if (data?.user?._id) {
       dispatch(getUserCart(data?.user?._id));
     }
-  }, [data]);
+  }, [dispatch, data]);
 
   return (
     <Grid maxWidth={"1300px"} margin="auto">

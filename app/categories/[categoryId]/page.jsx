@@ -35,7 +35,7 @@ const Category = () => {
 
   useEffect(() => {
     dispatch(getProductsByCategory(category));
-  }, [dispatch]);
+  }, [dispatch, category]);
   const pathname = usePathname();
   const category = pathname.replace("/categories/", "");
   const data = useSelector((state) => state.products.products);

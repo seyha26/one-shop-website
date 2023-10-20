@@ -25,7 +25,7 @@ export const userLogin = (data, callback) => async (dispatch) => {
 
 export const getProducts = (data) => async (dispatch) => {
   try {
-    const res = await fetch("http://localhost:3000/api/get-products")
+    const res = await fetch("/api/get-products")
       .then((res) => {
         // if (res.status !== 200) {
         //   console.log("erorr");
@@ -50,7 +50,7 @@ export const getProducts = (data) => async (dispatch) => {
 export const getProductDetail = (data, callback) => async (dispatch) => {
   try {
     // console.log(`http://localhost:3000/api/detail/${data}`);
-    const res = await fetch(`http://localhost:3000/api/detail/${data}`, {
+    const res = await fetch(`/api/detail/${data}`, {
       method: "POST",
       body: JSON.stringify({
         _id: data,
@@ -80,7 +80,7 @@ export const getProductDetail = (data, callback) => async (dispatch) => {
 export const addToCart = (data, callback) => async (dispatch) => {
   try {
     console.log("data", data);
-    const res = await fetch(`http://localhost:3000/api/add-to-cart`, {
+    const res = await fetch(`/api/add-to-cart`, {
       method: "POST",
       body: JSON.stringify({
         productId: data.productId,
@@ -110,20 +110,17 @@ export const addToCart = (data, callback) => async (dispatch) => {
 export const addToFav = (data, callback) => async (dispatch) => {
   try {
     console.log("data: ", data);
-    const res = await fetch(
-      `http://localhost:3000/api/favorite/${data.userId}`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          userId: data.userId,
-          productId: data.productId,
-          inFav: data.inFav,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    )
+    const res = await fetch(`/api/favorite/${data.userId}`, {
+      method: "POST",
+      body: JSON.stringify({
+        userId: data.userId,
+        productId: data.productId,
+        inFav: data.inFav,
+      }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
       .then((res) => {
         return res.json();
       })
@@ -137,7 +134,7 @@ export const addToFav = (data, callback) => async (dispatch) => {
 export const getUserCart = (data, callback) => async (dispatch) => {
   try {
     if (data) {
-      const res = await fetch(`http://localhost:3000/api/cart/${data}`)
+      const res = await fetch(`/api/cart/${data}`)
         .then((res) => {
           // if (res.status !== 200) {
           //   return;
@@ -177,7 +174,7 @@ export const getProductsByCategory = (data, callback) => async (dispatch) => {
 
 export const removeProduct = (data) => async (dispatch) => {
   try {
-    const res = await fetch("http://localhost:3000/api/remove-from-cart", {
+    const res = await fetch("/api/remove-from-cart", {
       method: "POST",
       body: JSON.stringify({
         productId: data._id,
@@ -220,9 +217,7 @@ export const decrementQuntity = (id) => (dispatch) => {
 
 export const getFav = (data, calback) => async (dispatch) => {
   try {
-    const res = await fetch(
-      `http://localhost:3000/api/get-favorite/${data.userId}`
-    )
+    const res = await fetch(`/api/get-favorite/${data.userId}`)
       .then((res) => {
         return res.json();
       })
