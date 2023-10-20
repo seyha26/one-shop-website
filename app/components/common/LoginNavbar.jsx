@@ -74,22 +74,41 @@ const LoginHeader = () => {
           <>
             <Search />
             <Grid display="flex" gap="1rem">
-              <Link href={`/favorite/${session?.data?.user?._id}`}>
-                <IconButton
-                  sx={{
-                    "&.MuiIconButton-root": {
-                      background: "rgb(255, 220, 204)",
-                    },
-                  }}
-                >
-                  <Badge badgeContent={fav} color="error">
-                    <Icon
-                      icon="material-symbols:favorite-outline"
-                      style={{ color: "rgb(242, 101, 34)" }}
-                    />
-                  </Badge>
-                </IconButton>
-              </Link>
+              {session?.data?.user ? (
+                <Link href={`/favorite/${session?.data?.user?._id}`}>
+                  <IconButton
+                    sx={{
+                      "&.MuiIconButton-root": {
+                        background: "rgb(255, 220, 204)",
+                      },
+                    }}
+                  >
+                    <Badge badgeContent={fav} color="error">
+                      <Icon
+                        icon="material-symbols:favorite-outline"
+                        style={{ color: "rgb(242, 101, 34)" }}
+                      />
+                    </Badge>
+                  </IconButton>
+                </Link>
+              ) : (
+                <Link href={`/login`}>
+                  <IconButton
+                    sx={{
+                      "&.MuiIconButton-root": {
+                        background: "rgb(255, 220, 204)",
+                      },
+                    }}
+                  >
+                    <Badge badgeContent={fav} color="error">
+                      <Icon
+                        icon="material-symbols:favorite-outline"
+                        style={{ color: "rgb(242, 101, 34)" }}
+                      />
+                    </Badge>
+                  </IconButton>
+                </Link>
+              )}
               <IconButton
                 sx={{
                   "&.MuiIconButton-root": {

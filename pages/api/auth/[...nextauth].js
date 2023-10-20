@@ -44,6 +44,7 @@ const options = {
   ],
   pages: {
     signIn: "/login",
+    signOut: "/",
   },
   session: {
     strategy: "jwt",

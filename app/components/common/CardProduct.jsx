@@ -98,25 +98,49 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
         </CardContent>
       </Grid>
       <Grid display={"flex"} alignItems={"center"} gap={1}>
-        <IconButton
-          sx={{
-            "&.MuiIconButton-root": {
-              background: "rgb(255, 220, 204)",
-            },
-          }}
-          onClick={() => {
-            dispatch(addToFav({ productId: item._id, userId, inFav: !inFav }));
-          }}
-        >
-          <Icon
-            icon="material-symbols:favorite"
-            style={{
-              color: inFav ? "rgb(242, 101, 34)" : "#fff",
-              width: "15px",
-              height: "15px",
+        {data?.user?._id ? (
+          <IconButton
+            sx={{
+              "&.MuiIconButton-root": {
+                background: "rgb(255, 220, 204)",
+              },
             }}
-          />
-        </IconButton>
+            onClick={() => {
+              dispatch(
+                addToFav({ productId: item._id, userId, inFav: !inFav })
+              );
+            }}
+          >
+            <Icon
+              icon="material-symbols:favorite"
+              style={{
+                color: inFav ? "rgb(242, 101, 34)" : "#fff",
+                width: "15px",
+                height: "15px",
+              }}
+            />
+          </IconButton>
+        ) : (
+          <IconButton
+            sx={{
+              "&.MuiIconButton-root": {
+                background: "rgb(255, 220, 204)",
+              },
+            }}
+            onClick={() => {
+              Router.push("/login");
+            }}
+          >
+            <Icon
+              icon="material-symbols:favorite"
+              style={{
+                color: inFav ? "rgb(242, 101, 34)" : "#fff",
+                width: "15px",
+                height: "15px",
+              }}
+            />
+          </IconButton>
+        )}
         <Button
           onClick={() => handleSelectItem(item._id)}
           variant="contained"
@@ -130,43 +154,73 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
         >
           Enroll Now
         </Button>
-        <IconButton
-          sx={{
-            "&.MuiIconButton-root": {
-              background: "rgb(255, 220, 204)",
-            },
-          }}
-          onClick={
-            () => {
-              success();
-              dispatch(
-                addToCart({
-                  productId: item,
-                  price: item.price,
-                  qty: !item.amount ? 1 : item.amount,
-                  stock: 16,
-                  userId,
-                  total: item.qty ? item.price * 1 : item.price * item.qty,
-                })
-              );
-            }
-            // addToCarts(
-            //   item._id,
-            //   item.price,
-            //   !item.amount ? 1 : item.amount,
-            //   !item.qty ? item.price * 1 : item.price * item.qty
-            // )
-          }
-        >
-          <Icon
-            icon="mdi:cart"
-            style={{
-              color: inCart ? "rgb(242, 101, 34)" : "#fff",
-              width: "15px",
-              height: "15px",
+        {data?.user?._id ? (
+          <IconButton
+            sx={{
+              "&.MuiIconButton-root": {
+                background: "rgb(255, 220, 204)",
+              },
             }}
-          />
-        </IconButton>
+            onClick={
+              () => {
+                success();
+                dispatch(
+                  addToCart({
+                    productId: item,
+                    price: item.price,
+                    qty: !item.amount ? 1 : item.amount,
+                    stock: 16,
+                    userId,
+                    total: item.qty ? item.price * 1 : item.price * item.qty,
+                  })
+                );
+              }
+              // addToCarts(
+              //   item._id,
+              //   item.price,
+              //   !item.amount ? 1 : item.amount,
+              //   !item.qty ? item.price * 1 : item.price * item.qty
+              // )
+            }
+          >
+            <Icon
+              icon="mdi:cart"
+              style={{
+                color: inCart ? "rgb(242, 101, 34)" : "#fff",
+                width: "15px",
+                height: "15px",
+              }}
+            />
+          </IconButton>
+        ) : (
+          <IconButton
+            sx={{
+              "&.MuiIconButton-root": {
+                background: "rgb(255, 220, 204)",
+              },
+            }}
+            onClick={
+              () => {
+                Router.push("/login");
+              }
+              // addToCarts(
+              //   item._id,
+              //   item.price,
+              //   !item.amount ? 1 : item.amount,
+              //   !item.qty ? item.price * 1 : item.price * item.qty
+              // )
+            }
+          >
+            <Icon
+              icon="mdi:cart"
+              style={{
+                color: inCart ? "rgb(242, 101, 34)" : "#fff",
+                width: "15px",
+                height: "15px",
+              }}
+            />
+          </IconButton>
+        )}
       </Grid>
     </Grid>
   );

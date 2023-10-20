@@ -24,6 +24,7 @@ import { json } from "react-router-dom";
 import uuidv3 from "uuid";
 import { useSession } from "next-auth/react";
 import { getUserCart } from "@/redux/features/actions";
+import { useRouter } from "next/navigation";
 
 // const sendData = async () => {
 //   await fetch("http://localhost:5000", {
@@ -47,9 +48,10 @@ const Cart = () => {
   const dispatch = useDispatch();
   const totalPrice = useSelector((state) => state.products.totalprice);
   const { data } = useSession();
+  const router = useRouter();
 
   const checkOut = async () => {
-    await fetch("http://localhost:3000/api/create-checkout-session", {
+    await fetch("/api/create-checkout-session", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -289,7 +291,9 @@ const Cart = () => {
                   },
                 }}
                 fullWidth
-                onClick={() => checkOut()}
+                onClick={() => {
+                  data?.user?._id ? checkOut() : router.push("/login");
+                }}
                 disabled={productInCart.length === 0 ? true : false}
               >
                 Confirm order

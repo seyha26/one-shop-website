@@ -18,6 +18,7 @@ import { useRouter } from "next/navigation";
 
 const Header = ({ data }) => {
   const [isLogin, setIsLogin] = useState(false);
+  const router = useRouter();
   useEffect(() => {
     if (data?.user) {
       setIsLogin(true);
@@ -135,24 +136,24 @@ const Header = ({ data }) => {
               Recharge
             </Button>
             {isLogin ? (
-              <Link href="/login">
-                <Button
-                  variant="contained"
-                  sx={{
-                    "&.MuiButton-contained": {
-                      background: "#fff",
-                      color: "#F26522",
-                      height: "25px",
-                      borderRadius: "20px",
-                      textTransform: "none",
-                      boxShadow: "none",
-                    },
-                  }}
-                  onClick={() => signOut()}
-                >
-                  Log Out
-                </Button>
-              </Link>
+              <Button
+                variant="contained"
+                sx={{
+                  "&.MuiButton-contained": {
+                    background: "#fff",
+                    color: "#F26522",
+                    height: "25px",
+                    borderRadius: "20px",
+                    textTransform: "none",
+                    boxShadow: "none",
+                  },
+                }}
+                onClick={() => {
+                  signOut();
+                }}
+              >
+                Log Out
+              </Button>
             ) : (
               <>
                 <Link href="/register">
