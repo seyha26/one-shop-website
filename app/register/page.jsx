@@ -45,7 +45,7 @@ const LoginForm = () => {
       setLoading(true);
       // console.log("first register");
       // console.log("test");
-      const apiRes = await axios.post("http://localhost:3000/api/auth/signup", {
+      const apiRes = await axios.post("/api/auth/signup", {
         username: data.username,
         password: data.password,
         fullName: data.lastName + " " + data.firstName,
