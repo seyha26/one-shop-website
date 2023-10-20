@@ -28,6 +28,7 @@ import toast, { Toaster } from "react-hot-toast";
 const LoginForm = () => {
   const [submitError, setSubmitError] = useState("");
   const [loading, setLoading] = useState(false);
+  const [isShowPassword, setIsShowPassword] = useState(false);
   const [data, setData] = useState({
     username: "",
     firstName: "",
@@ -278,7 +279,7 @@ const LoginForm = () => {
                         // data={password}
                         name="password"
                         fullWidth
-                        // type={isShowPassword ? "text" : "password"}
+                        type={isShowPassword ? "text" : "password"}
                         value={data.password}
                         onChange={(e) => handleChange(e)}
                         sx={{
@@ -289,14 +290,13 @@ const LoginForm = () => {
                             <IconButton
                               aria-label="toggle password visibility"
                               edge="end"
-                              // onClick={showPassword}
+                              onClick={() => setIsShowPassword(!isShowPassword)}
                             >
-                              {/* {!isShowPassword ? (
-                                
+                              {!isShowPassword ? (
+                                <Icon icon="raphael:lock" />
                               ) : (
                                 <Icon icon="raphael:unlock" />
-                              )} */}
-                              <Icon icon="raphael:lock" />
+                              )}
                             </IconButton>
                           </InputAdornment>
                         }

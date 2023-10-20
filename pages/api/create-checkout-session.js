@@ -21,8 +21,8 @@ const handler = async (req, res) => {
             // images: [item.image, item.image],
           };
         }),
-        success_url: "http://localhost:3000/",
-        cancel_url: "http://localhost:3000/",
+        success_url: "/",
+        cancel_url: "/",
       });
       // console.log("session.url: ", session);
       // console.log(data);
