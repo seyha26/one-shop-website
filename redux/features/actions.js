@@ -1,5 +1,3 @@
-import { headers } from "@/next.config";
-
 export const userLogin = (data, callback) => async (dispatch) => {
   try {
     const res = await fetch("https://dummyjson.com/auth/login", {
@@ -23,15 +21,10 @@ export const userLogin = (data, callback) => async (dispatch) => {
   }
 };
 
-export const getProducts = (data) => async (dispatch) => {
+export const getProducts = () => async (dispatch) => {
   try {
     const res = await fetch("/api/get-products")
       .then((res) => {
-        // if (res.status !== 200) {
-        //   console.log("erorr");
-        //   return;
-        // }
-        // console.log(res.json());
         return res.json();
       })
       .catch((err) => console.log(err));
@@ -40,14 +33,13 @@ export const getProducts = (data) => async (dispatch) => {
       type: "GET_PRODUCTS",
       payload: res,
     });
-    // console.log("res", res);
     return res;
   } catch (error) {
     console.log(error);
   }
 };
 
-export const getProductDetail = (data, callback) => async (dispatch) => {
+export const getProductDetail = (data) => async (dispatch) => {
   try {
     // console.log(`http://localhost:3000/api/detail/${data}`);
     const res = await fetch(`/api/detail/${data}`, {
@@ -77,7 +69,7 @@ export const getProductDetail = (data, callback) => async (dispatch) => {
   }
 };
 
-export const addToCart = (data, callback) => async (dispatch) => {
+export const addToCart = (data) => async (dispatch) => {
   try {
     console.log("data", data);
     const res = await fetch(`/api/add-to-cart`, {
@@ -107,7 +99,7 @@ export const addToCart = (data, callback) => async (dispatch) => {
   }
 };
 
-export const addToFav = (data, callback) => async (dispatch) => {
+export const addToFav = (data) => async (dispatch) => {
   try {
     console.log("data: ", data);
     const res = await fetch(`/api/favorite/${data.userId}`, {
@@ -131,7 +123,7 @@ export const addToFav = (data, callback) => async (dispatch) => {
   }
 };
 
-export const getUserCart = (data, callback) => async (dispatch) => {
+export const getUserCart = (data) => async (dispatch) => {
   try {
     if (data) {
       const res = await fetch(`/api/cart/${data}`)
@@ -153,7 +145,7 @@ export const getUserCart = (data, callback) => async (dispatch) => {
   }
 };
 
-export const getProductsByCategory = (data, callback) => async (dispatch) => {
+export const getProductsByCategory = (data) => async (dispatch) => {
   try {
     const res = await fetch(`https://dummyjson.com/products/category/${data}`)
       .then((res) => {
@@ -215,7 +207,7 @@ export const decrementQuntity = (id) => (dispatch) => {
   } catch (error) {}
 };
 
-export const getFav = (data, calback) => async (dispatch) => {
+export const getFav = (data) => async (dispatch) => {
   try {
     const res = await fetch(`/api/get-favorite/${data.userId}`)
       .then((res) => {
@@ -225,6 +217,23 @@ export const getFav = (data, calback) => async (dispatch) => {
     dispatch({
       type: "GET_FAV",
       payload: res,
+    });
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const searchProduct = (data) => async (dispatch) => {
+  try {
+    const res = await fetch("/api/get-products")
+      .then((res) => {
+        return res.json();
+      })
+      .catch((err) => console.log(err));
+
+    dispatch({
+      type: "SEARCH_PRODUCT",
+      payload: { data, res },
     });
   } catch (error) {
     console.log(error);

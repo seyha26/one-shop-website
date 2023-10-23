@@ -179,6 +179,15 @@ export default function (state = initialState, action) {
       return { ...state, favorite: newProduct };
       // return state;
     }
+    case "SEARCH_PRODUCT": {
+      const newProduct = action.payload.res.filter((product) => {
+        console.log(product);
+        return product.name.toLowerCase().includes(action.payload.data);
+      });
+      console.log(action);
+      console.log(newProduct);
+      return { ...state, products: newProduct };
+    }
     default:
       return state;
   }

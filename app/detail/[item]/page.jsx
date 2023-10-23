@@ -319,7 +319,7 @@ const Detail = () => {
                   <Icon
                     icon="mdi:cart-outline"
                     style={{ color: "rgb(242, 101, 34)" }}
-                  />{" "}
+                  />
                   Add To Cart
                 </Button>
                 <Button
