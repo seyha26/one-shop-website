@@ -21,6 +21,29 @@
   }
 }
 
+
+*::-webkit-scrollbar {
+  width: 12px;
+  transition: width 3s ease;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: #b4b3b3;
+}
+
+/* *::-webkit-scrollbar:hover {
+  width: 12px;
+
+} */
+
+.btnClear:hover {
+  cursor: pointer;
+}
+
+*::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.1);
+}
+
 #login_logo {
   width: 120px;
   height: 100px;

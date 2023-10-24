@@ -57,6 +57,7 @@ const CardProduct = ({ item, itemId, inFav, inCart }) => {
         maxWidth: "255px",
         height: "370px",
         display: "flex",
+        background: "#fff",
         flexDirection: "column",
         alignItems: "center",
         padding: "10px",

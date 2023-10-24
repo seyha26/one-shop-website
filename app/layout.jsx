@@ -1,3 +1,4 @@
+import BodyWrapper from "./components/common/BodyWrapper";
 import Footer from "./components/common/Footer";
 import Navabar from "./components/common/Navbar";
 import Providers from "./components/common/Providers";
@@ -19,13 +20,13 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <link rel="icon" href="/assets/logo/favicon.png" sizes="any" />
       <SessionProviders session={session}>
-        <body className={inter.className} style={{ overflowX: "hidden" }}>
-          <Providers>
+        <Providers>
+          <BodyWrapper inter={inter.className}>
             <Navabar />
             {children}
             <Footer />
-          </Providers>
-        </body>
+          </BodyWrapper>
+        </Providers>
       </SessionProviders>
     </html>
   );

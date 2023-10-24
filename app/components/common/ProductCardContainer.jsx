@@ -41,6 +41,7 @@ export default function CartContainer() {
   const products = useSelector((state) => {
     return state.products.products;
   });
+  const isSearching = useSelector((state) => state.products.isSearching);
 
   // console.log(products);
 
@@ -92,6 +93,7 @@ export default function CartContainer() {
       <Grid
         container
         sx={{
+          overflowY: "auto !important",
           backgroundImage: "url('/assets/Home/homebg.jpg')",
           minHeight: "90vh",
           backgroundSize: "100%",

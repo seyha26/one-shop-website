@@ -2,6 +2,7 @@ const initialState = {
   products: [],
   productsByCategory: [],
   selectedProduct: {},
+  isSearching: false,
   cart: {
     id: "",
     name: "",
@@ -16,6 +17,7 @@ const initialState = {
   ordered: [],
   favorite: [],
   inFav: false,
+  searchProducts: [],
 };
 
 export default function (state = initialState, action) {
@@ -87,6 +89,7 @@ export default function (state = initialState, action) {
         });
         return product;
       });
+
       return {
         ...state,
         ordered: action.payload.cart.items,
@@ -180,13 +183,40 @@ export default function (state = initialState, action) {
       // return state;
     }
     case "SEARCH_PRODUCT": {
-      const newProduct = action.payload.res.filter((product) => {
-        console.log(product);
+      const isSearching = (() => {
+        if (action.payload.data) {
+          return true;
+        }
+        return false;
+      })();
+      const searchProduct = action.payload.res.filter((product) => {
         return product.name.toLowerCase().includes(action.payload.data);
       });
-      console.log(action);
-      console.log(newProduct);
-      return { ...state, products: newProduct };
+      const products = searchProduct.map((pro) => {
+        state.ordered.map((item) => {
+          return item.productId._id === pro._id
+            ? (pro = { ...pro, inCart: true })
+            : pro;
+        });
+        return pro;
+      });
+
+      const newProducts = products.map((product) => {
+        state.favorite.map((item) => {
+          return item.productId._id === product._id
+            ? (product = {
+                ...product,
+                inFav: true,
+              })
+            : product;
+        });
+        return product;
+      });
+      return {
+        ...state,
+        isSearching: isSearching,
+        searchProducts: newProducts,
+      };
     }
     default:
       return state;

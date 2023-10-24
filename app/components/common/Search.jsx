@@ -6,18 +6,16 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Icon } from "@iconify/react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { searchProduct } from "@/redux/features/actions";
+import { IconButton } from "@mui/material";
 
-const Search = () => {
-  const [value, setValue] = useState("");
-  const dispatch = useDispatch();
+const Search = ({ searchParams, setSearchParams }) => {
   const handleChange = (e) => {
-    setValue(e.target.value);
+    setSearchParams(e.target.value);
   };
-  useEffect(() => {
-    dispatch(searchProduct(value));
-  }, [value]);
+  const isSearching = useSelector((state) => state.products.isSearching);
+
   return (
     <>
       <FormControl
@@ -43,16 +41,28 @@ const Search = () => {
           sx={{
             fontSize: "0.9rem",
           }}
-          value={value}
+          value={searchParams}
           onChange={(e) => handleChange(e)}
           id="outlined-adornment-password"
           endAdornment={
             <InputAdornment position="end">
-              <Icon
-                icon="material-symbols:search"
-                width={25}
-                style={{ color: "rgb(242, 101, 34)" }}
-              />
+              {isSearching ? (
+                <Icon
+                  icon="ic:baseline-clear"
+                  width={25}
+                  style={{
+                    color: "rgb(242, 101, 34)",
+                  }}
+                  className="btnClear"
+                  onClick={() => setSearchParams("")}
+                />
+              ) : (
+                <Icon
+                  icon="material-symbols:search"
+                  width={25}
+                  style={{ color: "rgb(242, 101, 34)" }}
+                />
+              )}
             </InputAdornment>
           }
           label="Search Products"

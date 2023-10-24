@@ -20,7 +20,7 @@ import { Icon } from "@iconify/react";
 import { useSelector } from "react-redux";
 import CartList from "./CartList";
 import { useSession } from "next-auth/react";
-const LoginHeader = () => {
+const LoginHeader = ({ setSearchParams, searchParams }) => {
   const pathname = usePathname();
   const data = useSelector((state) => state.products.ordered.length);
   const fav = useSelector((state) => state.products.favorite.length);
@@ -72,7 +72,10 @@ const LoginHeader = () => {
           <ChangeLanguage color="#000" />
         ) : (
           <>
-            <Search />
+            <Search
+              setSearchParams={setSearchParams}
+              searchParams={searchParams}
+            />
             <Grid display="flex" gap="1rem">
               {session?.data?.user ? (
                 <Link href={`/favorite/${session?.data?.user?._id}`}>
